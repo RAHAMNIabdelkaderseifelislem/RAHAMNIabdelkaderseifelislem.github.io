@@ -324,7 +324,7 @@ header.masthead .intro-text .intro-heading {
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   header.masthead .intro-text {
     padding-top: 100px;
     padding-bottom: 200px;
@@ -346,6 +346,13 @@ header.masthead .intro-text .intro-heading {
     margin-bottom: 50px;
     font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
+}
+
+@media (max-width: 800px) {
+  header {
+    display: none;
+  }
+
 }
 
 .service-heading {
