@@ -17,7 +17,7 @@ const Footer = () => {
                 <a href="https://github.com/RAHAMNIabdelkaderseifelislem"><i className="fa fa-github"></i></a>
               </li>
               <li className="list-inline-item">
-                <a href="https://www.linkedin.com/in/abd-el-kader-seif-el-islem-rahmani-2805b019b"><i className="fa fa-linkedin"></i></a>
+                <a href="https://www.linkedin.com/in/aek-seif-el-islem-rahmani/"><i className="fa fa-linkedin"></i></a>
               </li>
             </ul>
           </div>
