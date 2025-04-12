@@ -13,7 +13,7 @@ const Projects = () => {
         <div className="row">
           <div className="col-md-4">
             <div className="card">
-              <img className="card-img-top" src="img/portfolio/PlantAfterDetection.png" alt="Plant Disease Detection" />
+              <img className="card-img-top" src={`${process.env.PUBLIC_URL}/img/portfolio/PlantAfterDetection.png`} alt="Plant Disease Detection" />
               <div className="card-body">
                 <h5 className="card-title">Plant Disease Detection</h5>
                 <p className="card-text">An online tool to detect plant diseases using machine learning.</p>
@@ -22,7 +22,7 @@ const Projects = () => {
           </div>
           <div className="col-md-4">
             <div className="card">
-              <img className="card-img-top" src="img/portfolio/ChatBot3.png" alt="AgriChat" />
+              <img className="card-img-top" src={`${process.env.PUBLIC_URL}/img/portfolio/ChatBot3.png`} alt="AgriChat" />
               <div className="card-body">
                 <h5 className="card-title">AgriChat</h5>
                 <p className="card-text">An agriculture expert system using Mixture of Experts (MoE) and Retrieval-Augmented Generation (RAG) techniques.</p>
@@ -31,7 +31,7 @@ const Projects = () => {
           </div>
           <div className="col-md-4">
             <div className="card">
-              <img className="card-img-top" src="img/portfolio/fingerprint.jpeg" alt="Fingerprint Recognition" />
+              <img className="card-img-top" src={`${process.env.PUBLIC_URL}/img/portfolio/fingerprint.jpeg`} alt="Fingerprint Recognition" />
               <div className="card-body">
                 <h5 className="card-title">Fingerprint Recognition</h5>
                 <p className="card-text">A cloud-based fingerprint recognition system using AI algorithms.</p>

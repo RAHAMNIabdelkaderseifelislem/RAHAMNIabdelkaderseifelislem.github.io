@@ -6,7 +6,7 @@ const About = () => {
       <div className="container">
         <div className="row">
           <div className="col-lg-4 text-center">
-            <img className="img-fluid" src="img/profile/rahmani.png" alt="AbdElKader Seif El Islem RAHMANI" style={{ marginBottom: '30px' }} />
+            <img className="img-fluid" src={`${process.env.PUBLIC_URL}/img/profile/rahmani.png`} alt="AbdElKader Seif El Islem RAHMANI" style={{ marginBottom: '30px' }} />
           </div>
           <div className="col-lg-8 text-center text-md-left">
             <h2>About Me</h2>
