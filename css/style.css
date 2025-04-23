@@ -189,6 +189,10 @@ h2 { font-family: var(--font-display); color: var(--primary-color); margin-botto
     /* The width will be calculated dynamically by JS if needed, but flex handles it */
 }
 
+.recommendations-track.no-transition {
+    transition: none;
+}
+
 .recommendation-card {
     /* --- Card Dimensions --- */
     width: 70%; /* Adjust width of the central card */

@@ -104,111 +104,187 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // --- ***** END: Service Contact Button Logic ***** ---
 
-    // --- ***** NEW: Recommendations Slider Logic ***** ---
     const slider = document.querySelector('.recommendations-slider');
-    const track = slider?.querySelector('.recommendations-track'); // Use optional chaining
-    const cards = slider?.querySelectorAll('.recommendation-card');
+    const track = slider?.querySelector('.recommendations-track');
+    const originalCards = slider?.querySelectorAll('.recommendation-card');
     const prevButton = slider?.querySelector('.slider-button.prev');
     const nextButton = slider?.querySelector('.slider-button.next');
 
-    if (track && cards && cards.length > 0 && prevButton && nextButton) { // Check if elements exist
-        let currentIndex = 0;
+    if (track && originalCards && originalCards.length > 1 && prevButton && nextButton) {
         let cardWidth = 0;
-        let trackOffset = 0; // Offset to center the active card
+        let trackOffset = 0;
+        let cards = [];
+        let currentIndex = 1; // Start at the first REAL card
+        let isTransitioning = false;
+        let autoPlayInterval = null; // Variable to hold the interval ID
+        const autoPlayDelay = 10000; // 10 seconds
+
+        function setupSlider() {
+            // Cloning (same as before)
+            const firstClone = originalCards[0].cloneNode(true);
+            const lastClone = originalCards[originalCards.length - 1].cloneNode(true);
+            firstClone.setAttribute('aria-hidden', 'true');
+            lastClone.setAttribute('aria-hidden', 'true');
+            track.appendChild(firstClone);
+            track.insertBefore(lastClone, originalCards[0]);
+            cards = Array.from(track.children);
+
+            // Initial Calculation & Positioning (same as before)
+            calculateDimensions();
+            track.classList.add('no-transition');
+            const initialTranslateX = trackOffset - (currentIndex * cardWidth);
+            track.style.transform = `translateX(${initialTranslateX}px)`;
+            track.offsetHeight;
+            track.classList.remove('no-transition');
+            updateActiveCard();
+
+            startAutoPlay(); // *** Start auto-play after setup ***
+        }
 
         function calculateDimensions() {
-            // Calculate width based on the first card - assumes all cards are same width initially
+            // Calculation logic (same as before)
+            if (!cards || cards.length === 0) return;
             const firstCard = cards[0];
             const cardStyle = window.getComputedStyle(firstCard);
             const cardMarginWidth = parseFloat(cardStyle.marginLeft) + parseFloat(cardStyle.marginRight);
             cardWidth = firstCard.offsetWidth + cardMarginWidth;
-
-            // Calculate offset to center the active card within the slider viewport
             const sliderWidth = slider.offsetWidth;
-            trackOffset = (sliderWidth / 2) - (cardWidth / 2); // Adjust based on desired alignment
-
-            // Apply initial padding if needed to ensure side cards are visible
-            // track.style.paddingLeft = `${trackOffset}px`;
-            // track.style.paddingRight = `${trackOffset}px`; // Padding might affect width calcs, careful
+            trackOffset = (sliderWidth / 2) - (cardWidth / 2);
         }
 
-
-        function updateSlider() {
-            if (!track || !cards || cards.length === 0) return; // Guard clause
-
-            // Calculate the translation needed to center the current card
-            // Translation = Initial Offset - (Index * Full Card Width)
-            const translateX = trackOffset - (currentIndex * cardWidth);
-            track.style.transform = `translateX(${translateX}px)`;
-
-            // Update active class
+        function updateActiveCard() {
+            // Active card update logic (same as before)
+            if (!cards || cards.length === 0) return;
             cards.forEach((card, index) => {
                 if (index === currentIndex) {
                     card.classList.add('is-active');
                     card.setAttribute('aria-hidden', 'false');
                 } else {
                     card.classList.remove('is-active');
-                     card.setAttribute('aria-hidden', 'true');
+                    card.setAttribute('aria-hidden', 'true');
                 }
             });
-
-            // Update button states
-            prevButton.disabled = currentIndex === 0;
-            nextButton.disabled = currentIndex === cards.length - 1;
         }
 
-        function slideToIndex(index) {
-            if (index >= 0 && index < cards.length) {
-                currentIndex = index;
-                updateSlider();
+        function moveTo(index) {
+            if (isTransitioning || !track || !cards || cards.length === 0) return;
+            isTransitioning = true;
+            currentIndex = index;
+            const translateX = trackOffset - (currentIndex * cardWidth);
+            track.classList.remove('no-transition');
+            track.style.transform = `translateX(${translateX}px)`;
+            updateActiveCard();
+            // Note: isTransitioning is reset in the 'transitionend' listener
+        }
+
+        // --- Auto-Play Functions ---
+        function startAutoPlay() {
+            stopAutoPlay(); // Clear any existing interval first
+            autoPlayInterval = setInterval(() => {
+                // Simulate clicking next
+                moveTo(currentIndex + 1);
+            }, autoPlayDelay);
+        }
+
+        function stopAutoPlay() {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = null;
+        }
+
+        // --- Event Listener for Transition End ---
+        track.addEventListener('transitionend', () => {
+            isTransitioning = false; // Reset flag FIRST
+
+            // Check for jumps (same as before)
+            if (currentIndex === 0) { // Landed on the PREPENDED clone
+                track.classList.add('no-transition');
+                currentIndex = cards.length - 2; // Last REAL card index
+                const jumpTranslateX = trackOffset - (currentIndex * cardWidth);
+                track.style.transform = `translateX(${jumpTranslateX}px)`;
+                track.offsetHeight;
+                track.classList.remove('no-transition');
+                updateActiveCard();
+            } else if (currentIndex === cards.length - 1) { // Landed on the APPENDED clone
+                track.classList.add('no-transition');
+                currentIndex = 1; // First REAL card index
+                const jumpTranslateX = trackOffset - (currentIndex * cardWidth);
+                track.style.transform = `translateX(${jumpTranslateX}px)`;
+                track.offsetHeight;
+                track.classList.remove('no-transition');
+                updateActiveCard();
             }
-        }
 
-        // --- Event Listeners ---
+            // Optionally restart autoplay after manual interaction jump completes
+            // if (!autoPlayInterval) { startAutoPlay(); } // Uncomment to restart after jump
+        });
+
+        // --- Navigation Button Listeners (Stop Auto-Play on Click) ---
         nextButton.addEventListener('click', () => {
-            if (currentIndex < cards.length - 1) {
-                currentIndex++;
-                updateSlider();
+            stopAutoPlay(); // *** Stop auto-play on manual interaction ***
+            if (!isTransitioning) {
+                moveTo(currentIndex + 1);
             }
         });
 
         prevButton.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateSlider();
+            stopAutoPlay(); // *** Stop auto-play on manual interaction ***
+            if (!isTransitioning) {
+                moveTo(currentIndex - 1);
             }
         });
 
-         // Optional: Click on side cards to center them
+        // --- Optional: Stop Auto-Play on Card Click ---
         cards.forEach((card, index) => {
-            card.addEventListener('click', () => {
-                if (index !== currentIndex) {
-                    slideToIndex(index);
-                }
-            });
-        });
+             card.addEventListener('click', () => {
+                 stopAutoPlay(); // *** Stop auto-play on manual interaction ***
+                 if (index !== currentIndex && !isTransitioning) {
+                     if (index === currentIndex + 1 || index === currentIndex - 1) {
+                          moveTo(index);
+                     }
+                     // Decide if clicking non-adjacent cards should do anything or center them
+                     // else { moveTo(index); } // This might jump if clicking clones
+                 }
+             });
+         });
+
+         // --- Optional: Pause Auto-Play on Hover ---
+         slider.addEventListener('mouseenter', stopAutoPlay);
+         slider.addEventListener('mouseleave', startAutoPlay);
 
 
         // --- Initialization and Resize Handling ---
-        calculateDimensions(); // Calculate initial sizes
-        updateSlider(); // Set initial position
+        setupSlider(); // Sets everything up and starts auto-play
 
-        // Recalculate on window resize
         let resizeTimer;
         window.addEventListener('resize', () => {
+            stopAutoPlay(); // Pause during resize calculation
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
+                if (isTransitioning) { // If still transitioning, wait and retry
+                    startAutoPlay(); // Restart autoplay if we aborted resize calculation
+                    return;
+                }
+                track.classList.add('no-transition');
                 calculateDimensions();
-                updateSlider(); // Re-apply transform based on new dimensions
-            }, 250); // Debounce resize event
+                const currentTranslateX = trackOffset - (currentIndex * cardWidth);
+                track.style.transform = `translateX(${currentTranslateX}px)`;
+                track.offsetHeight;
+                track.classList.remove('no-transition');
+                startAutoPlay(); // Resume auto-play after resize adjustment
+            }, 250);
         });
 
     } else {
-        console.warn("Recommendation slider elements not found. Slider functionality disabled.");
-        // Optionally hide buttons if slider elements aren't found
-        if (prevButton) prevButton.style.display = 'none';
-        if (nextButton) nextButton.style.display = 'none';
+        // Error/Warning handling (same as before)
+        if (originalCards && originalCards.length <= 1) {
+             console.warn("Need more than one recommendation card for slider functionality.");
+             if (prevButton) prevButton.style.display = 'none';
+             if (nextButton) nextButton.style.display = 'none';
+        } else {
+             console.warn("Infinite recommendation slider elements not found or insufficient cards. Slider functionality disabled.");
+             if (prevButton) prevButton.style.display = 'none';
+             if (nextButton) nextButton.style.display = 'none';
+        }
     }
-    // --- ***** END: Recommendations Slider Logic ***** ---
 
 }); // End DOMContentLoaded
