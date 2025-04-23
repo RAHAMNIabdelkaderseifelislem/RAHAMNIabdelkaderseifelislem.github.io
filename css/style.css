@@ -35,58 +35,54 @@ h2 { font-family: var(--font-display); color: var(--primary-color); margin-botto
 
 
 /* ***** UPDATED Skills Section Styling ***** */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-}
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+.skill-category { margin-bottom: 20px; } /* Added margin for spacing */
+.skill-category h3 { color: var(--secondary-color); margin-bottom: 15px; font-size: 1.2em; }
 
-.skill-category {
-    margin-bottom: 20px;
-}
-
-.skill-category h3 {
-    color: var(--secondary-color);
-    margin-bottom: 20px;
-    font-size: 1.2em;
-}
-
-/* --- Styling for the icon wrapper (Mask Container) --- */
-.skill-icon-wrapper {
-    display: inline-block; /* Allow spacing and alignment */
-    width: 40px;          /* Control size */
-    height: 40px;
-    margin: 8px 12px;     /* Consistent spacing */
+/* Apply grayscale filter to icons and images */
+.skill-category i, .skill-icon-img {
+    font-size: 2.5em;
+    margin: 5px 10px;
+    color: #eeeeee; /* Base color for Font Awesome */
+    filter: grayscale(100%) brightness(75%); /* Apply grayscale and dim slightly */
+    transition: filter 0.3s ease, transform 0.3s ease;
+    display: inline-block;
     vertical-align: middle;
-    cursor: pointer;
-
-    /* --- Masking Properties --- */
-    /* Use the --icon-url variable set in HTML */
-    -webkit-mask-image: var(--icon-url);
-    mask-image: var(--icon-url);
-    -webkit-mask-size: contain; /* Fit icon within the element */
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
-
-    /* --- Color Control (Applied to the wrapper) --- */
-    background-color: var(--tertiary-color); /* Default Muted Color */
-    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* --- Hide the original <img> inside the wrapper --- */
-.skill-icon-wrapper img {
-    display: none; /* Hide the actual image element */
-    /* Alternative: opacity: 0; pointer-events: none; */
+.skill-icon-img {
+    height: 40px;
+    width: auto;
+}
+
+/* Style text-based skills (spans) */
+.skill-category span[title] { /* Target spans used as skill indicators */
+    font-size: 0.9em;
+    font-family: var(--font-body);
+    border: 1px solid var(--tertiary-color);
+    color: var(--tertiary-color);
+    background-color: rgba(136, 146, 176, 0.1); /* Subtle background */
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: default;
+    display: inline-block;
+    margin: 5px 10px;
+    vertical-align: middle;
+    transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
 }
 
 
-/* --- Hover Styling for the wrapper --- */
-.skill-icon-wrapper:hover {
-    background-color: var(--primary-color); /* Hover Color (Cyan) */
-    transform: scale(1.15); /* Scale effect */
+/* Hover effect: remove grayscale, increase brightness slightly */
+.skill-category i:hover, .skill-icon-img:hover {
+    filter: grayscale(10%) brightness(150%); /* Less gray, brighter */
+    transform: scale(1.1);
+}
+
+.skill-category span[title]:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background-color: rgba(0, 255, 255, 0.15);
+    transform: scale(1.05); /* Subtle scale for text */
 }
 /* ***** END UPDATED Skills Section Styling ***** */
 
@@ -196,6 +192,7 @@ h2 { font-family: var(--font-display); color: var(--primary-color); margin-botto
 .recommendations-track.no-transition {
     transition: none;
 }
+
 
 .recommendation-card {
     /* --- Card Dimensions --- */
