@@ -1,0 +1,366 @@
+/* Basic Reset & Futuristic Theme (Variables remain the same) */
+:root {
+    --bg-color: #0a192f;
+    --primary-color: #00ffff; /* Cyan */
+    --secondary-color: #ccd6f6; /* Light Slate */
+    --tertiary-color: #8892b0; /* Slate */
+    --highlight-color: #ff6bcb; /* Pink/Magenta */
+    --module-bg: rgba(23, 42, 69, 0.8);
+    --border-color: rgba(0, 255, 255, 0.3);
+    --font-display: 'Orbitron', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+/* Basic styles remain the same */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background-color: var(--bg-color); color: var(--secondary-color); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; background-image: linear-gradient(rgba(10, 25, 47, 0.95), rgba(10, 25, 47, 0.95)); background-attachment: fixed; } /* Removed pattern for simplicity, add back if desired */
+.overlay-scanline { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02)); background-size: 100% 3px, 5px 100%; z-index: 2; pointer-events: none; animation: scanline 12s linear infinite; }
+@keyframes scanline { 0% { background-position: 0 0; } 100% { background-position: 0 100vh; } }
+.container { max-width: 1100px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+.module { background-color: var(--module-bg); border: 1px solid var(--border-color); padding: 30px; margin-bottom: 40px; border-radius: 5px; box-shadow: 0 0 15px rgba(0, 255, 255, 0.1); backdrop-filter: blur(5px); }
+
+/* Header, Nav, Headings, etc. remain the same */
+.boot-sequence { text-align: center; border: none; background: none; box-shadow: none; padding-top: 50px; }
+.profile-pic { width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--primary-color); margin-bottom: 20px; box-shadow: 0 0 20px var(--primary-color); }
+.boot-sequence h1 { font-family: var(--font-display); color: var(--primary-color); font-size: 2.8em; margin-bottom: 5px; text-shadow: 0 0 10px var(--primary-color); min-height: 1.2em; }
+.boot-sequence .subtitle { color: var(--secondary-color); font-size: 1.4em; margin-bottom: 30px; min-height: 1.2em; }
+.typing::after { content: '_'; opacity: 1; animation: blink 1s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.main-nav a { color: var(--secondary-color); text-decoration: none; margin: 0 15px; font-size: 1.1em; transition: color 0.3s ease, text-shadow 0.3s ease; position: relative; }
+.main-nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 50%; transform: translateX(-50%); background-color: var(--primary-color); transition: width 0.3s ease; }
+.main-nav a:hover { color: var(--primary-color); text-shadow: 0 0 5px var(--primary-color); }
+.main-nav a:hover::after { width: 100%; }
+h2 { font-family: var(--font-display); color: var(--primary-color); margin-bottom: 25px; font-size: 1.8em; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+
+
+/* ***** UPDATED Skills Section Styling ***** */
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+.skill-category { margin-bottom: 20px; } /* Added margin for spacing */
+.skill-category h3 { color: var(--secondary-color); margin-bottom: 15px; font-size: 1.2em; }
+
+/* Apply grayscale filter to icons and images */
+.skill-category i, .skill-icon-img {
+    font-size: 2.5em;
+    margin: 5px 10px;
+    color: var(--tertiary-color); /* Base color for Font Awesome */
+    filter: grayscale(100%) brightness(75%); /* Apply grayscale and dim slightly */
+    transition: filter 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.skill-icon-img {
+    height: 40px;
+    width: auto;
+}
+
+/* Style text-based skills (spans) */
+.skill-category span[title] { /* Target spans used as skill indicators */
+    font-size: 0.9em;
+    font-family: var(--font-body);
+    border: 1px solid var(--tertiary-color);
+    color: var(--tertiary-color);
+    background-color: rgba(136, 146, 176, 0.1); /* Subtle background */
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: default;
+    display: inline-block;
+    margin: 5px 10px;
+    vertical-align: middle;
+    transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+}
+
+
+/* Hover effect: remove grayscale, increase brightness slightly */
+.skill-category i:hover, .skill-icon-img:hover {
+    filter: grayscale(10%) brightness(110%); /* Less gray, brighter */
+    transform: scale(1.1);
+}
+
+.skill-category span[title]:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background-color: rgba(0, 255, 255, 0.15);
+    transform: scale(1.05); /* Subtle scale for text */
+}
+/* ***** END UPDATED Skills Section Styling ***** */
+
+
+/* Projects Section Styles remain the same */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+.project-card { background-color: rgba(30, 52, 81, 0.7); border: 1px solid var(--border-color); padding: 20px; border-radius: 5px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2); }
+.project-card h3 { color: var(--primary-color); margin-bottom: 10px; }
+.project-tags span { background-color: rgba(0, 255, 255, 0.1); color: var(--primary-color); padding: 3px 8px; border-radius: 3px; font-size: 0.8em; margin-right: 5px; display: inline-block; margin-top: 10px; }
+.project-link { display: inline-block; margin-top: 15px; color: var(--highlight-color); text-decoration: none; font-weight: bold; transition: color 0.3s ease; }
+.project-link:hover { color: var(--primary-color); text-decoration: underline; }
+
+
+/* ***** UPDATED Services Section Styling ***** */
+.services-list { list-style: none; padding-left: 0; }
+.services-list li {
+    margin-bottom: 20px; /* Increased spacing */
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+}
+
+.services-list li i.fa-solid, /* Target the service icon */
+.services-list li i.fa-regular,
+.services-list li i.fa-brands {
+    color: var(--primary-color);
+    margin-right: 15px;
+    font-size: 1.5em;
+    width: 30px;
+    text-align: center;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.service-text {
+    flex-grow: 1; /* Allow text to take available space */
+    margin-right: 15px; /* Space before buttons */
+}
+
+.service-contact-buttons {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-left: auto; /* Push buttons to the right */
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+.service-contact-buttons a {
+    color: var(--tertiary-color);
+    font-size: 1.3em; /* Adjust size as needed */
+    padding: 5px 8px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: 50%; /* Make buttons circular */
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+    line-height: 1; /* Ensure icon is centered */
+    display: inline-flex; /* Align icon properly */
+    align-items: center;
+    justify-content: center;
+    width: 35px; /* Fixed width */
+    height: 35px; /* Fixed height */
+}
+
+.service-contact-buttons a:hover {
+    color: var(--primary-color);
+    background-color: rgba(0, 255, 255, 0.1);
+    border-color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+/* Specific hover colors */
+.service-contact-buttons a.service-whatsapp:hover {
+     color: #25D366; /* WhatsApp Green */
+     border-color: #25D366;
+     background-color: rgba(37, 211, 102, 0.1);
+}
+/* ***** END UPDATED Services Section Styling ***** */
+
+
+/* Experience & Education Timeline Styles remain the same */
+.timeline { position: relative; padding-left: 30px; }
+.timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background-color: var(--border-color); }
+.timeline-item { margin-bottom: 30px; position: relative; }
+.timeline-item::before { content: ''; position: absolute; left: -24px; top: 5px; width: 10px; height: 10px; background-color: var(--primary-color); border-radius: 50%; box-shadow: 0 0 5px var(--primary-color); }
+.timeline-item h3 { color: var(--secondary-color); font-size: 1.2em; margin-bottom: 5px; }
+.timeline-item p { color: var(--tertiary-color); font-size: 0.95em; }
+
+
+/* ***** NEW Recommendations Section Styling ***** */
+/* ***** UPDATED Recommendations Section Styling (Slider) ***** */
+#recommendations h2 {
+    margin-bottom: 30px;
+}
+
+.recommendations-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden; /* Crucial: Hides parts of cards outside the view */
+    padding: 20px 0; /* Add some vertical padding */
+}
+
+.recommendations-track {
+    display: flex; /* Arrange cards horizontally */
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth slide transition */
+    /* The width will be calculated dynamically by JS if needed, but flex handles it */
+}
+
+.recommendation-card {
+    /* --- Card Dimensions --- */
+    width: 70%; /* Adjust width of the central card */
+    flex-shrink: 0; /* Prevent cards from shrinking */
+    margin: 0 2%; /* Adjust spacing between cards */
+    box-sizing: border-box;
+
+    /* --- Styling --- */
+    background-color: rgba(30, 52, 81, 0.6);
+    border-left: 4px solid var(--primary-color);
+    padding: 25px 30px;
+    border-radius: 6px;
+    position: relative; /* For pseudo-elements if needed later */
+
+    /* --- Default state (inactive/shadow) --- */
+    opacity: 0.4;
+    transform: scale(0.85); /* Make inactive cards smaller */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    cursor: pointer; /* Indicate they can potentially be clicked to center */
+}
+
+/* --- Active Card Styling --- */
+.recommendation-card.is-active {
+    opacity: 1;
+    transform: scale(1); /* Full size */
+    background-color: rgba(40, 62, 91, 0.8); /* Slightly more prominent background */
+    box-shadow: 0 5px 25px rgba(0, 255, 255, 0.15);
+    cursor: default;
+}
+
+/* --- Recommender Info Styling (keep as before or adjust) --- */
+.recommender-info h3 {
+    color: var(--secondary-color);
+    font-size: 1.3em;
+    margin-bottom: 3px;
+}
+
+.recommender-title {
+    color: var(--tertiary-color);
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.recommendation-text {
+    color: var(--secondary-color);
+    font-size: 1em;
+    line-height: 1.7;
+}
+
+/* --- Slider Navigation Buttons --- */
+.slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 255, 255, 0.2);
+    border: 1px solid var(--border-color);
+    color: var(--secondary-color);
+    font-size: 1.8em;
+    font-weight: bold;
+    padding: 5px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.slider-button:hover {
+    background-color: rgba(0, 255, 255, 0.4);
+    color: var(--bg-color);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.slider-button.prev {
+    left: -10px; /* Adjust position */
+}
+
+.slider-button.next {
+    right: -10px; /* Adjust position */
+}
+
+.slider-button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background-color: rgba(136, 146, 176, 0.2); /* Use tertiary color base */
+    border-color: rgba(136, 146, 176, 0.4);
+    color: var(--tertiary-color);
+    box-shadow: none;
+}
+
+
+/* Responsive adjustments for slider */
+@media (max-width: 992px) {
+    .recommendation-card {
+        width: 80%;
+        margin: 0 1.5%;
+    }
+}
+
+@media (max-width: 768px) {
+    .recommendation-card {
+        width: 90%;
+        margin: 0 1%;
+        padding: 20px 25px;
+        transform: scale(0.8); /* Slightly smaller scale for side cards */
+    }
+     .recommendation-card.is-active {
+         transform: scale(1);
+     }
+    .slider-button {
+        font-size: 1.5em;
+        width: 40px;
+        height: 40px;
+        padding: 5px 10px;
+    }
+    .slider-button.prev { left: 0px; }
+    .slider-button.next { right: 0px; }
+
+}
+@media (max-width: 480px) {
+     .recommendation-card {
+        width: 94%;
+        margin: 0 1%;
+        padding: 15px 20px;
+         transform: scale(0.75);
+    }
+     .recommendation-card.is-active {
+         transform: scale(1);
+     }
+}
+
+
+/* ***** END UPDATED Recommendations Section Styling ***** */
+/* ***** END Recommendations Section Styling ***** */
+
+
+/* Contact Footer Styles remain the same */
+#connect { text-align: center; }
+.contact-links a { color: var(--secondary-color); font-size: 2em; margin: 0 15px; transition: color 0.3s ease, transform 0.3s ease; display: inline-block; }
+.contact-links a:hover { color: var(--primary-color); transform: scale(1.2); }
+.footer-note { margin-top: 30px; font-size: 0.9em; color: var(--tertiary-color); }
+
+/* Responsive Design (Adjustments) */
+@media (max-width: 768px) {
+    .container { padding: 15px; }
+    .boot-sequence h1 { font-size: 2em; }
+    .boot-sequence .subtitle { font-size: 1.1em; }
+    .main-nav a { margin: 0 8px; font-size: 1em; }
+    .skills-grid, .projects-grid { grid-template-columns: 1fr; }
+    h2 { font-size: 1.5em; }
+    .module { padding: 20px; }
+    .contact-links a { font-size: 1.8em; margin: 0 10px; }
+
+    /* Adjust service list for smaller screens */
+    .services-list li { flex-direction: column; align-items: flex-start; }
+    .service-text { margin-right: 0; margin-bottom: 10px; width: 100%; }
+    .service-contact-buttons { margin-left: 0; /* Align left below text */ margin-top: 5px; }
+
+    .recommendation-card { padding: 15px 20px; }
+    .recommendation-card::before { left: -10px; font-size: 2em; }
+}
+
+@media (max-width: 480px) {
+     .boot-sequence h1 { font-size: 1.8em; }
+     .boot-sequence .subtitle { font-size: 1em; }
+     .main-nav { display: flex; flex-wrap: wrap; justify-content: center; }
+     .main-nav a { margin: 5px 10px; }
+     .profile-pic { width: 120px; height: 120px; }
+}
