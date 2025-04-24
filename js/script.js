@@ -1,58 +1,62 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Set current year in footer
+
+    // --- Basic Setup: Set current year in footer ---
     const yearSpan = document.getElementById('year');
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // --- Typing Animation ---
+    // --- Enhanced Typing Animation (Boot Sequence + Name/Title) ---
     const nameElement = document.getElementById('typing-name');
     const titleElement = document.getElementById('typing-title');
-    const nameText = "AbdElKader Seif El Islem RAHMANI";
-    const titleText = "Deep Learning Engineer | Data Scientist | AI Enthusiast";
-    const typingSpeed = 60;
-    const delayBetween = 500;
-
     const bootMsg1 = document.getElementById('boot-msg-1');
     const bootMsg2 = document.getElementById('boot-msg-2');
     const bootMsg3 = document.getElementById('boot-msg-3');
 
+    // Text content for animations
     const bootText1 = "Initializing AI Command Center v2.5...";
     const bootText2 = "Loading Profile Matrix... [OK]";
     const bootText3 = "Establishing Secure Connection...";
-    const bootDelay = 150; // Delay between boot messages
+    const nameText = "AbdElKader Seif El Islem RAHMANI";
+    const titleText = "Deep Learning Engineer | Data Scientist | AI Enthusiast";
+
+    // Animation parameters
+    const typingSpeed = 60; // Milliseconds per character
+    const bootDelay = 100; // Delay between boot messages
     const nameDelay = 300; // Delay before typing name
 
     function typeWriter(element, text, index, speed, callback) {
-        if (!element) { if(callback) callback(); return; } // Check if element exists
+        // Check if element exists
+        if (!element) {
+            if(callback) callback(); // Proceed if callback exists
+            return;
+        }
         if (index < text.length) {
-            // Use textContent for efficiency, add cursor via class/pseudo-element if preferred
-             element.textContent = text.substring(0, index + 1);
-             // Or add cursor dynamically:
-             element.innerHTML = text.substring(0, index + 1) + '<span class="typing"></span>';
+            // Display text and add blinking cursor
+            element.innerHTML = text.substring(0, index + 1) + '<span class="typing"></span>';
             setTimeout(() => typeWriter(element, text, index + 1, speed, callback), speed);
         } else {
-            element.textContent = text; // Remove cursor span
+            element.textContent = text; // Remove cursor span when done
             if (callback) {
-                setTimeout(callback, bootDelay); // Use bootDelay between steps
+                setTimeout(callback, bootDelay); // Use delay for next step
             }
         }
     }
 
-    // Start the boot sequence
-    if (bootMsg1) bootMsg1.innerHTML = '<span class="typing"></span>'; // Initial cursor
+    // Start the boot sequence typing animation
+    if (bootMsg1) bootMsg1.innerHTML = '<span class="typing"></span>'; // Initial cursor for first message
     typeWriter(bootMsg1, bootText1, 0, typingSpeed, () => {
         if (bootMsg2) bootMsg2.innerHTML = '<span class="typing"></span>';
         typeWriter(bootMsg2, bootText2, 0, typingSpeed, () => {
             if (bootMsg3) bootMsg3.innerHTML = '<span class="typing"></span>';
             typeWriter(bootMsg3, bootText3, 0, typingSpeed, () => {
-                // Boot sequence finished, start name/title
+                // --- Start Name and Title Typing after Boot Sequence ---
                 if (nameElement) nameElement.innerHTML = '<span class="typing"></span>';
-                if (titleElement) titleElement.innerHTML = ' '; // Prevent layout shift
-                setTimeout(() => { // Delay before name typing starts
+                if (titleElement) titleElement.innerHTML = ' '; // Placeholder
+                setTimeout(() => { // Delay before typing name
                     typeWriter(nameElement, nameText, 0, typingSpeed, () => {
                         if (titleElement) titleElement.innerHTML = '<span class="typing"></span>';
-                        typeWriter(titleElement, titleText, 0, typingSpeed, null);
+                        typeWriter(titleElement, titleText, 0, typingSpeed, null); // Last step, no further callback
                     });
                 }, nameDelay);
             });
@@ -60,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- Smooth Scroll for Nav & Quick Links ---
+    // --- Smooth Scrolling Function ---
     function smoothScrollTo(targetId) {
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
@@ -68,101 +72,100 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Chat Quick Links
-    const quickLinks = document.querySelectorAll('.chat-footer .quick-link');
-    quickLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
-            if (targetId && targetId.startsWith('#')) {
-                smoothScrollTo(targetId.substring(1));
-                // Optionally close chat window after click
-                // chatWindow.classList.remove('is-visible');
-                // chatToggleButton.classList.remove('active');
-            }
-        });
-    });
-
-    function typeWriter(element, text, index, callback) {
-        if (index < text.length) {
-            element.innerHTML = text.substring(0, index + 1) + '<span class="typing"></span>';
-            setTimeout(() => typeWriter(element, text, index + 1, callback), typingSpeed);
-        } else {
-            element.innerHTML = text;
-            if (callback) {
-                setTimeout(callback, delayBetween);
-            }
-        }
-    }
-
-    if (nameElement && titleElement) {
-        nameElement.innerHTML = '<span class="typing"></span>';
-        titleElement.innerHTML = ' ';
-        typeWriter(nameElement, nameText, 0, () => {
-            titleElement.innerHTML = '<span class="typing"></span>';
-             typeWriter(titleElement, titleText, 0, null);
-        });
-    }
-
-    // --- Smooth Scroll for Navigation Links ---
+    // --- Smooth Scroll for Main Navigation Links ---
     const navLinks = document.querySelectorAll('.main-nav a');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
             if (href && href.startsWith('#')) {
                 e.preventDefault();
-                const targetId = href.substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                smoothScrollTo(href.substring(1));
             }
         });
     });
 
-    // --- Fade-in Animation on Scroll ---
-    const modules = document.querySelectorAll('.module');
-    const revealOnScroll = () => {
-        const windowHeight = window.innerHeight;
-        modules.forEach(module => {
-            const elementTop = module.getBoundingClientRect().top;
-            const elementVisible = 100;
-            if (elementTop < windowHeight - elementVisible) {
-                module.style.opacity = "1";
-                module.style.transform = "translateY(0)";
+    // --- Smooth Scroll for Chat Quick Links ---
+    const quickLinks = document.querySelectorAll('.chat-footer .quick-link');
+    quickLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            if (targetId && targetId.startsWith('#')) {
+                smoothScrollTo(targetId.substring(1));
+                // Optional: Close chat window after quick link click
+                // const chatWindow = document.getElementById('chat-window');
+                // const chatToggleButton = document.getElementById('chat-toggle-button');
+                // if (chatWindow && chatToggleButton) {
+                //     chatWindow.classList.remove('is-visible');
+                //     chatToggleButton.classList.remove('active');
+                // }
             }
-            // Reset can be added here if needed:
+        });
+    });
+
+
+    // --- Fade-in Animation on Scroll (Modules) ---
+    const modules = document.querySelectorAll('.module');
+    const moduleObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+                // observer.unobserve(entry.target); // Optional: Animate only once
+            }
+            // Optional: Reset animation when scrolling out of view
             // else {
-            //     module.style.opacity = "0";
-            //     module.style.transform = "translateY(20px)";
+            //     entry.target.style.opacity = "0";
+            //     entry.target.style.transform = "translateY(20px)";
             // }
         });
-    };
-
-    modules.forEach(module => { // Initial state for animation
-        module.style.opacity = "0";
-        module.style.transform = "translateY(20px)";
-        module.style.transition = "opacity 0.8s ease-out, transform 0.6s ease-out";
+    }, {
+        threshold: 0.05 // Trigger when 5% visible
     });
 
-    window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll(); // Initial check
+    modules.forEach(module => {
+        module.style.opacity = "0"; // Initial hidden state
+        module.style.transform = "translateY(20px)";
+        module.style.willChange = "opacity, transform"; // Performance hint
+        moduleObserver.observe(module);
+    });
 
-    // --- ***** NEW: Service Contact Button Logic ***** ---
+
+    // --- Timeline Animation on Scroll ---
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const timelineObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target); // Animate only once
+            }
+        });
+    }, {
+        threshold: 0.2 // Trigger when 20% visible
+    });
+
+    timelineItems.forEach(item => {
+        timelineObserver.observe(item);
+    });
+
+
+    // --- Service Contact Button Logic ---
     const serviceItems = document.querySelectorAll('.services-list li[data-service]');
-    const yourWhatsAppNumber = '213668704202'; // Your WhatsApp number (no '+', spaces or dashes)
-    const yourEmail = 'a.e.k426rahmani@gmail.com';
+    const yourWhatsAppNumber = '213668704202'; // Replace if needed
+    const yourEmail = 'a.e.k426rahmani@gmail.com'; // Replace if needed
 
     serviceItems.forEach(item => {
         const serviceName = item.getAttribute('data-service');
         const whatsappButton = item.querySelector('.service-whatsapp');
         const emailButton = item.querySelector('.service-email');
 
+        // Generate WhatsApp link
         if (serviceName && whatsappButton) {
             const baseWhatsAppMessage = `Hello AbdElKader, I visited your portfolio and I'm interested in your "${serviceName}" service. Could we discuss this further?`;
             const encodedWhatsAppMessage = encodeURIComponent(baseWhatsAppMessage);
             whatsappButton.href = `https://wa.me/${yourWhatsAppNumber}?text=${encodedWhatsAppMessage}`;
         }
 
+        // Generate Email link
         if (serviceName && emailButton) {
             const emailSubject = `Inquiry about ${serviceName} Service`;
             const emailBody = `Hello AbdElKader,\n\nI saw your portfolio and I'm interested in learning more about your "${serviceName}" service.\n\n[Optional: Add specific question here]\n\nBest regards,\n[Your Name]`;
@@ -171,58 +174,66 @@ document.addEventListener('DOMContentLoaded', () => {
             emailButton.href = `mailto:${yourEmail}?subject=${encodedSubject}&body=${encodedBody}`;
         }
     });
-    // --- ***** END: Service Contact Button Logic ***** ---
 
+
+    // --- Infinite Auto-Playing Recommendations Slider Logic ---
     const slider = document.querySelector('.recommendations-slider');
     const track = slider?.querySelector('.recommendations-track');
     const originalCards = slider?.querySelectorAll('.recommendation-card');
     const prevButton = slider?.querySelector('.slider-button.prev');
     const nextButton = slider?.querySelector('.slider-button.next');
 
+    // Check if slider elements exist and there are enough cards
     if (track && originalCards && originalCards.length > 1 && prevButton && nextButton) {
         let cardWidth = 0;
         let trackOffset = 0;
-        let cards = [];
-        let currentIndex = 1; // Start at the first REAL card
+        let cards = []; // Will hold original + clones
+        let currentIndex = 1; // Start index (first real card)
         let isTransitioning = false;
-        let autoPlayInterval = null; // Variable to hold the interval ID
-        const autoPlayDelay = 5000; // 10 seconds
+        let autoPlayInterval = null;
+        const autoPlayDelay = 2000; // 3 seconds
 
         function setupSlider() {
-            // Cloning (same as before)
+            // --- Clone first and last cards ---
             const firstClone = originalCards[0].cloneNode(true);
             const lastClone = originalCards[originalCards.length - 1].cloneNode(true);
             firstClone.setAttribute('aria-hidden', 'true');
             lastClone.setAttribute('aria-hidden', 'true');
             track.appendChild(firstClone);
             track.insertBefore(lastClone, originalCards[0]);
-            cards = Array.from(track.children);
+            cards = Array.from(track.children); // Update collection
 
-            // Initial Calculation & Positioning (same as before)
+            // --- Calculate dimensions and set initial position ---
             calculateDimensions();
-            track.classList.add('no-transition');
-            const initialTranslateX = trackOffset - (currentIndex * cardWidth);
-            track.style.transform = `translateX(${initialTranslateX}px)`;
-            track.offsetHeight;
-            track.classList.remove('no-transition');
+            positionTrack(true); // Position without transition initially
             updateActiveCard();
-
-            startAutoPlay(); // *** Start auto-play after setup ***
+            startAutoPlay(); // Start auto-play
         }
 
         function calculateDimensions() {
-            // Calculation logic (same as before)
             if (!cards || cards.length === 0) return;
             const firstCard = cards[0];
             const cardStyle = window.getComputedStyle(firstCard);
             const cardMarginWidth = parseFloat(cardStyle.marginLeft) + parseFloat(cardStyle.marginRight);
             cardWidth = firstCard.offsetWidth + cardMarginWidth;
             const sliderWidth = slider.offsetWidth;
-            trackOffset = (sliderWidth / 2) - (cardWidth / 2);
+            trackOffset = (sliderWidth / 2) - (cardWidth / 2); // Center alignment offset
+        }
+
+        function positionTrack(instant = false) {
+            if (!track || !cards || cards.length === 0) return;
+            const translateX = trackOffset - (currentIndex * cardWidth);
+            if (instant) {
+                track.classList.add('no-transition');
+            }
+            track.style.transform = `translateX(${translateX}px)`;
+            if (instant) {
+                track.offsetHeight; // Force reflow/repaint
+                track.classList.remove('no-transition');
+            }
         }
 
         function updateActiveCard() {
-            // Active card update logic (same as before)
             if (!cards || cards.length === 0) return;
             cards.forEach((card, index) => {
                 if (index === currentIndex) {
@@ -239,18 +250,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isTransitioning || !track || !cards || cards.length === 0) return;
             isTransitioning = true;
             currentIndex = index;
-            const translateX = trackOffset - (currentIndex * cardWidth);
-            track.classList.remove('no-transition');
-            track.style.transform = `translateX(${translateX}px)`;
+            positionTrack(); // Move with transition
             updateActiveCard();
-            // Note: isTransitioning is reset in the 'transitionend' listener
         }
 
-        // --- Auto-Play Functions ---
         function startAutoPlay() {
-            stopAutoPlay(); // Clear any existing interval first
+            stopAutoPlay(); // Clear existing interval
             autoPlayInterval = setInterval(() => {
-                // Simulate clicking next
                 moveTo(currentIndex + 1);
             }, autoPlayDelay);
         }
@@ -260,120 +266,92 @@ document.addEventListener('DOMContentLoaded', () => {
             autoPlayInterval = null;
         }
 
-        // --- Event Listener for Transition End ---
+        // --- Event Listeners ---
         track.addEventListener('transitionend', () => {
-            isTransitioning = false; // Reset flag FIRST
-
-            // Check for jumps (same as before)
-            if (currentIndex === 0) { // Landed on the PREPENDED clone
-                track.classList.add('no-transition');
-                currentIndex = cards.length - 2; // Last REAL card index
-                const jumpTranslateX = trackOffset - (currentIndex * cardWidth);
-                track.style.transform = `translateX(${jumpTranslateX}px)`;
-                track.offsetHeight;
-                track.classList.remove('no-transition');
+            isTransitioning = false;
+            // Handle infinite loop jump
+            if (currentIndex === 0) { // Landed on prepended clone
+                currentIndex = cards.length - 2; // Index of last real card
+                positionTrack(true); // Jump instantly
                 updateActiveCard();
-            } else if (currentIndex === cards.length - 1) { // Landed on the APPENDED clone
-                track.classList.add('no-transition');
-                currentIndex = 1; // First REAL card index
-                const jumpTranslateX = trackOffset - (currentIndex * cardWidth);
-                track.style.transform = `translateX(${jumpTranslateX}px)`;
-                track.offsetHeight;
-                track.classList.remove('no-transition');
+            } else if (currentIndex === cards.length - 1) { // Landed on appended clone
+                currentIndex = 1; // Index of first real card
+                positionTrack(true); // Jump instantly
                 updateActiveCard();
             }
-
-            // Optionally restart autoplay after manual interaction jump completes
-            // if (!autoPlayInterval) { startAutoPlay(); } // Uncomment to restart after jump
         });
 
-        // --- Navigation Button Listeners (Stop Auto-Play on Click) ---
         nextButton.addEventListener('click', () => {
-            stopAutoPlay(); // *** Stop auto-play on manual interaction ***
-            if (!isTransitioning) {
-                moveTo(currentIndex + 1);
-            }
+            stopAutoPlay();
+            moveTo(currentIndex + 1);
         });
 
         prevButton.addEventListener('click', () => {
-            stopAutoPlay(); // *** Stop auto-play on manual interaction ***
-            if (!isTransitioning) {
-                moveTo(currentIndex - 1);
-            }
+            stopAutoPlay();
+            moveTo(currentIndex - 1);
         });
 
-        // --- Optional: Stop Auto-Play on Card Click ---
+        // Optional: Click on side cards (simplified: moves one step towards)
         cards.forEach((card, index) => {
              card.addEventListener('click', () => {
-                 stopAutoPlay(); // *** Stop auto-play on manual interaction ***
+                 stopAutoPlay();
                  if (index !== currentIndex && !isTransitioning) {
-                     if (index === currentIndex + 1 || index === currentIndex - 1) {
-                          moveTo(index);
-                     }
-                     // Decide if clicking non-adjacent cards should do anything or center them
-                     // else { moveTo(index); } // This might jump if clicking clones
+                     moveTo(index); // Center the clicked card
                  }
              });
          });
 
-         // --- Optional: Pause Auto-Play on Hover ---
-         slider.addEventListener('mouseenter', stopAutoPlay);
-         slider.addEventListener('mouseleave', startAutoPlay);
+        // Optional: Pause on hover
+        slider.addEventListener('mouseenter', stopAutoPlay);
+        slider.addEventListener('mouseleave', startAutoPlay);
 
-
-        // --- Initialization and Resize Handling ---
-        setupSlider(); // Sets everything up and starts auto-play
+        // --- Initialization & Resize Handling ---
+        setupSlider(); // Initial setup
 
         let resizeTimer;
         window.addEventListener('resize', () => {
-            stopAutoPlay(); // Pause during resize calculation
+            stopAutoPlay();
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
-                if (isTransitioning) { // If still transitioning, wait and retry
-                    startAutoPlay(); // Restart autoplay if we aborted resize calculation
-                    return;
-                }
-                track.classList.add('no-transition');
+                if (isTransitioning) { startAutoPlay(); return; } // Don't resize during transition
                 calculateDimensions();
-                const currentTranslateX = trackOffset - (currentIndex * cardWidth);
-                track.style.transform = `translateX(${currentTranslateX}px)`;
-                track.offsetHeight;
-                track.classList.remove('no-transition');
-                startAutoPlay(); // Resume auto-play after resize adjustment
+                positionTrack(true); // Reposition instantly based on new dimensions
+                startAutoPlay(); // Resume
             }, 250);
         });
 
     } else {
-        // Error/Warning handling (same as before)
+        // Handle case where slider elements aren't found or not enough cards
         if (originalCards && originalCards.length <= 1) {
-             console.warn("Need more than one recommendation card for slider functionality.");
-             if (prevButton) prevButton.style.display = 'none';
-             if (nextButton) nextButton.style.display = 'none';
+             console.warn("Slider disabled: Need more than one recommendation card.");
         } else {
-             console.warn("Infinite recommendation slider elements not found or insufficient cards. Slider functionality disabled.");
-             if (prevButton) prevButton.style.display = 'none';
-             if (nextButton) nextButton.style.display = 'none';
+             console.warn("Slider disabled: Recommendation slider elements not found.");
         }
+        if (prevButton) prevButton.style.display = 'none';
+        if (nextButton) nextButton.style.display = 'none';
     }
+    // --- END: Recommendations Slider Logic ---
 
-    // --- ***** NEW: AI Assistant Chat Toggle Logic ***** ---
+
+    // --- AI Assistant Chat Toggle Logic ---
     const chatToggleButton = document.getElementById('chat-toggle-button');
     const chatWindow = document.getElementById('chat-window');
 
     if (chatToggleButton && chatWindow) {
         chatToggleButton.addEventListener('click', () => {
             chatWindow.classList.toggle('is-visible');
-            chatToggleButton.classList.toggle('active'); // Toggle button appearance
+            chatToggleButton.classList.toggle('active');
         });
 
-        // Optional: Close chat if user clicks outside of it
+        // Optional: Close chat if clicking outside
         document.addEventListener('click', (event) => {
+            // Check if the click is outside the chat window AND outside the toggle button
             if (!chatWindow.contains(event.target) && !chatToggleButton.contains(event.target) && chatWindow.classList.contains('is-visible')) {
                  chatWindow.classList.remove('is-visible');
                  chatToggleButton.classList.remove('active');
             }
         });
     }
-     // --- ***** END: AI Assistant Chat Toggle Logic ***** ---
+    // --- END: AI Assistant Chat Toggle Logic ---
 
 }); // End DOMContentLoaded

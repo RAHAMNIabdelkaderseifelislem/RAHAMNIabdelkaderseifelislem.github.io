@@ -1,559 +1,641 @@
-/* Basic Reset & Futuristic Theme (Variables remain the same) */
+/* --- Root Variables --- */
 :root {
-    --bg-color: #0a192f;
+    --bg-color: #0a192f; /* Dark Navy Blue */
     --primary-color: #00ffff; /* Cyan */
-    --secondary-color: #ccd6f6; /* Light Slate */
-    --tertiary-color: #8892b0; /* Slate */
+    --secondary-color: #ccd6f6; /* Light Slate - Keep for accents */
+    --tertiary-color: #8892b0; /* Slate - Keep for muted elements */
     --highlight-color: #ff6bcb; /* Pink/Magenta */
     --module-bg: rgba(23, 42, 69, 0.8);
-    --border-color: rgba(0, 255, 255, 0.3);
+    --border-color: rgba(0, 255, 255, 0.3); /* Cyan border */
     --font-display: 'Orbitron', sans-serif;
     --font-body: 'Roboto', sans-serif;
+
+    /* Text Colors for Contrast */
+    --text-primary: #e6f1ff; /* Very light blue/off-white */
+    --text-secondary: #a8b2d1; /* Lighter slate */
+    --text-placeholder: #6a7a9c; /* Muted for placeholders */
+
+    /* Spacing */
+    --spacing-unit: 20px;
 }
 
-/* Basic styles remain the same */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { background-color: var(--bg-color); color: var(--secondary-color); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; background-image: linear-gradient(rgba(10, 25, 47, 0.95), rgba(10, 25, 47, 0.95)); background-attachment: fixed; } /* Removed pattern for simplicity, add back if desired */
-.overlay-scanline { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02)); background-size: 100% 3px, 5px 100%; z-index: 2; pointer-events: none; animation: scanline 12s linear infinite; }
-@keyframes scanline { 0% { background-position: 0 0; } 100% { background-position: 0 100vh; } }
-.container { max-width: 1100px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
-.module { background-color: var(--module-bg); border: 1px solid var(--border-color); padding: 30px; margin-bottom: 40px; border-radius: 5px; box-shadow: 0 0 15px rgba(0, 255, 255, 0.1); backdrop-filter: blur(5px); }
+/* --- Basic Reset --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/* Header, Nav, Headings, etc. remain the same */
-.boot-sequence { text-align: center; border: none; background: none; box-shadow: none; padding-top: 50px; }
-.profile-pic { width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--primary-color); margin-bottom: 20px; box-shadow: 0 0 20px var(--primary-color); }
-.boot-sequence h1 { font-family: var(--font-display); color: var(--primary-color); font-size: 2.8em; margin-bottom: 5px; text-shadow: 0 0 10px var(--primary-color); min-height: 1.2em; }
-.boot-sequence .subtitle { color: var(--secondary-color); font-size: 1.4em; margin-bottom: 30px; min-height: 1.2em; }
-.typing::after { content: '_'; opacity: 1; animation: blink 1s infinite; }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-.main-nav a { color: var(--secondary-color); text-decoration: none; margin: 0 15px; font-size: 1.1em; transition: color 0.3s ease, text-shadow 0.3s ease; position: relative; }
-.main-nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 50%; transform: translateX(-50%); background-color: var(--primary-color); transition: width 0.3s ease; }
-.main-nav a:hover { color: var(--primary-color); text-shadow: 0 0 5px var(--primary-color); }
-.main-nav a:hover::after { width: 100%; }
-h2 { font-family: var(--font-display); color: var(--primary-color); margin-bottom: 25px; font-size: 1.8em; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+html {
+    scroll-behavior: smooth;
+}
 
+/* --- Body Styling --- */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary); /* Use new primary text color */
+    font-family: var(--font-body);
+    line-height: 1.7; /* Increased line height */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    background-image: linear-gradient(rgba(10, 25, 47, 0.95), rgba(10, 25, 47, 0.95)); /* Subtle gradient */
+    background-attachment: fixed;
+    padding-top: 100px; /* Add padding for sticky header - ADJUST IF HEADER HEIGHT CHANGES */
+}
+
+/* --- Overlay Effect --- */
+.overlay-scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(0, 255, 255, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
+    background-size: 100% 4px, 5px 100%;
+    z-index: 2;
+    pointer-events: none; /* Allows clicking through */
+    animation: scanline 12s linear infinite;
+    opacity: 0.5; /* Make it more subtle */
+}
+
+@keyframes scanline {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100vh; }
+}
+
+/* --- Main Container --- */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--spacing-unit); /* Use spacing unit */
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Sticky Header --- */
+.header-sticky-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(10, 25, 47, 0.9); /* Semi-transparent dark background */
+    backdrop-filter: blur(8px); /* Blur background behind nav */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+}
+/* Styles for Header content when inside the sticky wrapper */
+.header-sticky-wrapper .boot-sequence {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 0;
+    border: none;
+    box-shadow: none;
+    background: none; /* Ensure no module background */
+    backdrop-filter: none; /* Ensure no module backdrop */
+    max-width: 1100px; /* Align content with main container */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-unit);
+    padding-right: var(--spacing-unit);
+}
+.header-sticky-wrapper .boot-messages {
+    display: none; /* Hide boot messages when sticky */
+}
+.header-sticky-wrapper .profile-pic {
+    width: 50px; /* Smaller profile pic */
+    height: 50px;
+    margin-bottom: 10px;
+    border-width: 2px; /* Thinner border */
+    box-shadow: 0 0 10px var(--primary-color); /* Less intense shadow */
+}
+.header-sticky-wrapper h1 {
+    font-size: 1.5em;
+    margin-bottom: 0;
+    text-shadow: 0 0 8px var(--primary-color);
+}
+.header-sticky-wrapper .subtitle {
+    font-size: 0.8em;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+}
+.header-sticky-wrapper .main-nav {
+    margin-top: 10px;
+}
+.header-sticky-wrapper .main-nav a {
+    font-size: 0.95em;
+    margin: 0 10px;
+    color: var(--text-secondary);
+}
+.header-sticky-wrapper .main-nav a:hover {
+     color: var(--primary-color);
+     text-shadow: 0 0 5px var(--primary-color);
+}
+.header-sticky-wrapper .main-nav a::after {
+    bottom: -3px; /* Adjust underline position */
+}
+
+
+/* --- Module Styling --- */
+.module {
+    background-color: var(--module-bg);
+    border: 1px solid var(--border-color);
+    padding: calc(var(--spacing-unit) * 1.8); /* Increased padding */
+    margin-bottom: calc(var(--spacing-unit) * 2.5); /* Increased margin */
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    min-height: 50px; /* Give it some minimum height */
+    /* Transition added via JS for observer */
+    /* transition: opacity 0.6s ease-out, transform 0.6s ease-out; */
+}
+/* Optional Hierarchy Styling */
+.module-intro { /* Example */
+    border-left: 3px solid var(--highlight-color);
+}
+.module-highlight { /* Example */
+     background-color: rgba(28, 50, 80, 0.85);
+}
+
+/* --- Initial Header (Non-Sticky) --- */
+.boot-sequence {
+    text-align: center;
+    border: none;
+    background: none;
+    box-shadow: none;
+    padding-top: 50px; /* Original padding */
+    margin-bottom: calc(var(--spacing-unit) * 2); /* Original margin */
+}
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px var(--primary-color);
+}
+.boot-sequence h1 {
+    font-family: var(--font-display);
+    color: var(--primary-color);
+    font-size: 2.8em;
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px var(--primary-color);
+    min-height: 1.2em; /* Prevent layout shift during typing */
+}
+.boot-sequence .subtitle {
+    color: var(--text-secondary); /* Use secondary text color */
+    font-size: 1.4em;
+    margin-bottom: 30px;
+    min-height: 1.2em; /* Prevent layout shift */
+}
 .boot-messages {
-    font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+    font-family: 'Courier New', Courier, monospace;
     color: var(--tertiary-color);
     font-size: 0.9em;
     margin-bottom: 20px;
-    min-height: 4.5em; /* Reserve space */
-    text-align: left; /* Align messages left */
-    max-width: 400px; /* Limit width */
+    min-height: 4.5em;
+    text-align: left;
+    max-width: 400px;
     margin-left: auto;
     margin-right: auto;
     opacity: 0.8;
 }
-.boot-msg {
-    margin: 0;
-    line-height: 1.5;
-    min-height: 1.5em; /* Prevent jumping */
-}
-.boot-msg::before {
-    content: '>'; /* Command prompt look */
-    margin-right: 8px;
-    color: var(--primary-color);
-}
-.boot-msg .typing::after { /* Adjust cursor for boot messages */
+.boot-msg { margin: 0; line-height: 1.5; min-height: 1.5em; }
+.boot-msg::before { content: '>'; margin-right: 8px; color: var(--primary-color); }
+/* Cursor for typing animations */
+.typing::after,
+.blinking-cursor {
     content: '_';
     opacity: 1;
     animation: blink 1s infinite;
     font-weight: bold;
     margin-left: 2px;
 }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
 
-/* --- Micro-interactions (Examples) --- */
-.main-nav a:hover,
-.contact-links a:hover,
-.slider-button:not(:disabled):hover { /* Add slider button */
-    transform: scale(1.1); /* Existing scale/translate might be fine */
-     /* color: var(--primary-color); // Already applied */
+/* --- Main Navigation (Non-Sticky) --- */
+.main-nav a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1.1em;
+    transition: all 0.3s ease; /* Combined transition */
+    position: relative;
+}
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+.main-nav a:hover {
+    color: var(--primary-color);
+    text-shadow: 0 0 5px var(--primary-color);
+    transform: scale(1.1);
+}
+.main-nav a:hover::after {
+    width: 100%;
+}
+
+/* --- General Typography & Headings --- */
+h2 {
+    font-family: var(--font-display);
+    color: var(--primary-color);
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    font-size: 2em; /* Larger H2 */
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: calc(var(--spacing-unit) * 0.5);
+}
+h3 {
+    color: var(--secondary-color); /* Lighter slate */
+    margin-bottom: var(--spacing-unit);
+    font-size: 1.3em;
+}
+p {
+    color: var(--text-primary); /* Use primary text color */
+    margin-bottom: var(--spacing-unit);
+}
+p:last-child { margin-bottom: 0; }
+
+
+/* --- Skills Section Styling (Devicon + Specific SVGs) --- */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: calc(var(--spacing-unit) * 1.5); /* Adjusted gap */
+}
+.skill-category {
+    margin-bottom: var(--spacing-unit); /* Adjusted spacing */
+}
+.skill-category h3 {
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-unit); /* Adjusted spacing */
+    font-size: 1.2em;
+}
+/* Default Styling for Devicon Font Icons */
+.skill-icon { /* Target the <i> tags */
+    font-size: 2.8em; /* Adjust size as needed for Devicon */
+    margin: 8px 12px;
+    color: var(--tertiary-color); /* Default Muted Color */
+    display: inline-block;
+    vertical-align: middle;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+/* Default Styling for Specific SVG Images (LangChain, Seaborn) */
+.skill-icon-img {
+    height: 40px; /* Match desired visual height */
+    width: auto;
+    margin: 8px 12px;
+    vertical-align: middle;
+    display: inline-block;
+    /* Use filters for muted appearance */
+    filter: grayscale(100%) brightness(80%) opacity(70%);
+    transition: filter 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+/* Hover Styling for Devicon Font Icons */
+.skill-icon:hover {
+    color: var(--primary-color); /* Change font color to Cyan */
+    transform: scale(1.15);
+    cursor: pointer;
+}
+/* Hover Styling for Specific SVG Images (LangChain, Seaborn) */
+.skill-icon-img:hover {
+    filter: grayscale(10%) brightness(110%) opacity(100%); /* Reveal color */
+    transform: scale(1.15);
+    /* Add cyan glow for theme consistency */
+    box-shadow: 0 0 8px 2px rgba(0, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+
+/* --- Enhanced Project Card Styles --- */
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: calc(var(--spacing-unit) * 1.5);
+}
+.project-card {
+    background-color: rgba(30, 52, 81, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease; /* Combined transition */
+    overflow: hidden;
 }
 .project-card:hover {
-    transform: translateY(-7px) scale(1.02); /* Slightly more pronounced */
-    box-shadow: 0 12px 25px rgba(0, 255, 255, 0.25); /* Enhanced shadow */
+    transform: translateY(-7px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 255, 255, 0.25);
 }
-.service-contact-buttons a:hover {
-    transform: scale(1.15); /* Slightly larger button pop */
+.project-thumbnail {
+    width: 100%; height: 180px; object-fit: cover; border-bottom: 1px solid var(--border-color);
 }
-/* Ensure transitions are defined on the base elements */
-.main-nav a, .contact-links a, .slider-button, .project-card, .service-contact-buttons a {
-    transition: all 0.3s ease; /* General transition for hover effects */
+.project-content {
+    padding: var(--spacing-unit); display: flex; flex-direction: column; flex-grow: 1;
 }
-
-
-/* ***** UPDATED Skills Section Styling ***** */
-.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-.skill-category { margin-bottom: 20px; } /* Added margin for spacing */
-.skill-category h3 { color: var(--secondary-color); margin-bottom: 15px; font-size: 1.2em; }
-
-/* Apply grayscale filter to icons and images */
-.skill-category i, .skill-icon-img {
-    font-size: 2.5em;
-    margin: 5px 10px;
-    color: #eeeeee; /* Base color for Font Awesome */
-    filter: grayscale(100%) brightness(75%); /* Apply grayscale and dim slightly */
-    transition: filter 0.3s ease, transform 0.3s ease;
-    display: inline-block;
-    vertical-align: middle;
+.project-content h3 {
+    color: var(--primary-color); margin-bottom: calc(var(--spacing-unit) * 0.5); font-size: 1.4em;
 }
-
-.skill-icon-img {
-    height: 40px;
-    width: auto;
+.project-description {
+    color: var(--text-secondary); font-size: 0.95em; margin-bottom: var(--spacing-unit);
 }
-
-/* Style text-based skills (spans) */
-.skill-category span[title] { /* Target spans used as skill indicators */
-    font-size: 0.9em;
-    font-family: var(--font-body);
-    border: 1px solid var(--tertiary-color);
-    color: var(--tertiary-color);
-    background-color: rgba(136, 146, 176, 0.1); /* Subtle background */
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: default;
-    display: inline-block;
-    margin: 5px 10px;
-    vertical-align: middle;
-    transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+.project-details {
+    margin-bottom: var(--spacing-unit); font-size: 0.9em; color: var(--text-secondary);
+    border-left: 2px solid var(--tertiary-color); padding-left: calc(var(--spacing-unit) * 0.75);
 }
-
-
-/* Hover effect: remove grayscale, increase brightness slightly */
-.skill-category i:hover, .skill-icon-img:hover {
-    filter: grayscale(10%) brightness(150%); /* Less gray, brighter */
-    transform: scale(1.1);
+.project-details p { margin-bottom: calc(var(--spacing-unit) * 0.4); line-height: 1.6; }
+.project-details strong { color: var(--text-primary); }
+.highlight-metric { color: var(--highlight-color); font-weight: bold; }
+.placeholder-text { color: var(--text-placeholder); font-style: italic; font-size: 0.9em; }
+.project-tags { margin-bottom: var(--spacing-unit); }
+.project-tags span {
+    background-color: rgba(0, 255, 255, 0.1); color: var(--primary-color); padding: 4px 9px; /* Slightly larger */
+    border-radius: 4px; font-size: 0.8em; margin-right: 6px; margin-bottom: 6px; /* Added bottom margin */ display: inline-block;
 }
-
-.skill-category span[title]:hover {
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-    background-color: rgba(0, 255, 255, 0.15);
-    transform: scale(1.05); /* Subtle scale for text */
+.project-links {
+    margin-top: auto; padding-top: calc(var(--spacing-unit) * 0.75); /* Increased padding */
+    border-top: 1px dashed var(--tertiary-color); display: flex; gap: var(--spacing-unit); flex-wrap: wrap;
 }
-/* ***** END UPDATED Skills Section Styling ***** */
+.project-link {
+    color: var(--secondary-color); text-decoration: none; font-weight: bold; transition: all 0.3s ease;
+    font-size: 0.9em; display: inline-flex; align-items: center; gap: 6px; /* Increased gap */
+}
+.project-link i { color: var(--primary-color); font-size: 1.1em; /* Slightly larger icon */}
+.project-link:hover { color: var(--primary-color); transform: scale(1.05); }
 
 
-/* Projects Section Styles remain the same */
-.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-.project-card { background-color: rgba(30, 52, 81, 0.7); border: 1px solid var(--border-color); padding: 20px; border-radius: 5px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2); }
-.project-card h3 { color: var(--primary-color); margin-bottom: 10px; }
-.project-tags span { background-color: rgba(0, 255, 255, 0.1); color: var(--primary-color); padding: 3px 8px; border-radius: 3px; font-size: 0.8em; margin-right: 5px; display: inline-block; margin-top: 10px; }
-.project-link { display: inline-block; margin-top: 15px; color: var(--highlight-color); text-decoration: none; font-weight: bold; transition: color 0.3s ease; }
-.project-link:hover { color: var(--primary-color); text-decoration: underline; }
-
-
-/* ***** UPDATED Services Section Styling ***** */
+/* --- Services Section Styling --- */
 .services-list { list-style: none; padding-left: 0; }
 .services-list li {
-    margin-bottom: 20px; /* Increased spacing */
-    font-size: 1.1em;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+    margin-bottom: 20px; font-size: 1.1em; display: flex; align-items: center; flex-wrap: wrap;
 }
-
-.services-list li i.fa-solid, /* Target the service icon */
-.services-list li i.fa-regular,
-.services-list li i.fa-brands {
-    color: var(--primary-color);
-    margin-right: 15px;
-    font-size: 1.5em;
-    width: 30px;
-    text-align: center;
-    flex-shrink: 0; /* Prevent icon from shrinking */
+.services-list li > i.fa-solid, /* Target FA service icons */
+.services-list li > i.fa-regular,
+.services-list li > i.fa-brands {
+    color: var(--primary-color); margin-right: 15px; font-size: 1.5em; width: 30px; text-align: center; flex-shrink: 0;
 }
-
-.service-text {
-    flex-grow: 1; /* Allow text to take available space */
-    margin-right: 15px; /* Space before buttons */
-}
-
-.service-contact-buttons {
-    display: flex;
-    gap: 10px; /* Space between buttons */
-    margin-left: auto; /* Push buttons to the right */
-    flex-shrink: 0; /* Prevent buttons from shrinking */
-}
-
+.service-text { flex-grow: 1; margin-right: 15px; color: var(--text-primary); }
+.service-contact-buttons { display: flex; gap: 10px; margin-left: auto; flex-shrink: 0; }
 .service-contact-buttons a {
-    color: var(--tertiary-color);
-    font-size: 1.3em; /* Adjust size as needed */
-    padding: 5px 8px;
-    border: 1px solid var(--tertiary-color);
-    border-radius: 50%; /* Make buttons circular */
-    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-    line-height: 1; /* Ensure icon is centered */
-    display: inline-flex; /* Align icon properly */
-    align-items: center;
-    justify-content: center;
-    width: 35px; /* Fixed width */
-    height: 35px; /* Fixed height */
+    color: var(--tertiary-color); font-size: 1.3em; padding: 5px 8px; border: 1px solid var(--tertiary-color);
+    border-radius: 50%; transition: all 0.3s ease; line-height: 1; display: inline-flex; align-items: center;
+    justify-content: center; width: 35px; height: 35px;
 }
-
 .service-contact-buttons a:hover {
-    color: var(--primary-color);
-    background-color: rgba(0, 255, 255, 0.1);
-    border-color: var(--primary-color);
-    transform: scale(1.1);
+    color: var(--primary-color); background-color: rgba(0, 255, 255, 0.1); border-color: var(--primary-color); transform: scale(1.15);
 }
-
-/* Specific hover colors */
 .service-contact-buttons a.service-whatsapp:hover {
-     color: #25D366; /* WhatsApp Green */
-     border-color: #25D366;
-     background-color: rgba(37, 211, 102, 0.1);
+     color: #25D366; border-color: #25D366; background-color: rgba(37, 211, 102, 0.1);
 }
-/* ***** END UPDATED Services Section Styling ***** */
 
 
-/* Experience & Education Timeline Styles remain the same */
+/* --- Timeline Animation Styling --- */
 .timeline { position: relative; padding-left: 30px; }
 .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background-color: var(--border-color); }
-.timeline-item { margin-bottom: 30px; position: relative; }
-.timeline-item::before { content: ''; position: absolute; left: -24px; top: 5px; width: 10px; height: 10px; background-color: var(--primary-color); border-radius: 50%; box-shadow: 0 0 5px var(--primary-color); }
-.timeline-item h3 { color: var(--secondary-color); font-size: 1.2em; margin-bottom: 5px; }
-.timeline-item p { color: var(--tertiary-color); font-size: 0.95em; }
+.timeline-item {
+    margin-bottom: 30px; position: relative;
+    /* Initial state (hidden) */
+    opacity: 0; transform: translateX(-40px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; will-change: opacity, transform;
+}
+.timeline-item::before { /* Dot */
+    content: ''; position: absolute; left: -24px; top: 5px; width: 10px; height: 10px;
+    background-color: var(--primary-color); border-radius: 50%; box-shadow: 0 0 5px var(--primary-color);
+}
+.timeline-item.in-view { opacity: 1; transform: translateX(0); } /* Visible state */
+/* Optional delays */
+.timeline-item:nth-child(2).in-view { transition-delay: 0.1s; }
+.timeline-item:nth-child(3).in-view { transition-delay: 0.2s; }
+.timeline-item:nth-child(4).in-view { transition-delay: 0.3s; }
+.timeline-item h3 { color: var(--text-primary); font-size: 1.2em; margin-bottom: 5px; }
+.timeline-item p { color: var(--text-secondary); font-size: 0.95em; }
 
 
+/* --- Recommendations Slider Styling --- */
+.recommendations-slider { position: relative; width: 100%; overflow: hidden; padding: 20px 0; }
+.recommendations-track { display: flex; /* Transition added/removed by JS */ }
+/* Class to disable transitions during instant jumps */
+.recommendations-track.no-transition { transition: none; }
+.recommendation-card {
+    width: 70%; flex-shrink: 0; margin: 0 2%; box-sizing: border-box;
+    background-color: rgba(30, 52, 81, 0.6); border-left: 4px solid var(--primary-color);
+    padding: 25px 30px; border-radius: 6px; position: relative;
+    opacity: 0.4; transform: scale(0.85); transition: opacity 0.5s ease, transform 0.5s ease, background-color 0.5s ease; cursor: pointer;
+}
+.recommendation-card.is-active {
+    opacity: 1; transform: scale(1); background-color: rgba(40, 62, 91, 0.8);
+    box-shadow: 0 5px 25px rgba(0, 255, 255, 0.15); cursor: default;
+}
+.recommender-info h3 { color: var(--text-primary); font-size: 1.3em; margin-bottom: 3px; }
+.recommender-title { color: var(--text-secondary); font-size: 0.9em; margin-bottom: 15px; font-style: italic; }
+.recommendation-text { color: var(--text-primary); font-size: 1em; line-height: 1.7; }
+.slider-button {
+    position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(0, 255, 255, 0.2);
+    border: 1px solid var(--border-color); color: var(--secondary-color); font-size: 1.8em; font-weight: bold;
+    padding: 5px 15px; border-radius: 50%; cursor: pointer; z-index: 10; transition: all 0.3s ease;
+    width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; line-height: 1;
+}
+.slider-button:hover {
+    background-color: rgba(0, 255, 255, 0.4); color: var(--bg-color); box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); transform: scale(1.1) translateY(-50%);
+}
+.slider-button.prev { left: -10px; }
+.slider-button.next { right: -10px; }
+
+
+/* --- Revamped Footer CTA --- */
+.module-cta {
+    text-align: center; border-color: var(--primary-color); box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+}
+.module-cta h2 { font-size: 2.2em; border-bottom: none; margin-bottom: var(--spacing-unit); }
+.module-cta h2 .highlight-text { color: var(--highlight-color); }
+.cta-text { font-size: 1.1em; color: var(--text-secondary); max-width: 700px; margin-left: auto; margin-right: auto; }
+.cta-action { font-size: 1.2em; font-weight: bold; color: var(--text-primary); margin-bottom: calc(var(--spacing-unit) * 1.5); }
+/* Optional CTA Button Style */
+.cta-button { display: inline-block; padding: 12px 30px; background-color: var(--primary-color); color: var(--bg-color); border: none; border-radius: 5px; font-family: var(--font-display); font-size: 1.1em; text-decoration: none; margin-bottom: calc(var(--spacing-unit) * 1.5); transition: background-color 0.3s ease, transform 0.3s ease; }
+.cta-button:hover { background-color: var(--highlight-color); transform: scale(1.05); }
+.module-cta .contact-links { justify-content: center; margin-bottom: calc(var(--spacing-unit) * 1.5); display: flex; gap: calc(var(--spacing-unit) * 1.5); /* Add gap */ }
+.module-cta .contact-links a { font-size: 2.2em; color: var(--secondary-color); transition: all 0.3s ease; }
+.module-cta .contact-links a:hover { color: var(--primary-color); transform: scale(1.15); } /* Ensure scaling */
+.footer-note { margin-top: var(--spacing-unit); font-size: 0.9em; color: var(--tertiary-color); }
 
 
 /* --- AI Assistant Chat Styling --- */
 .chat-toggle {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    background-color: var(--primary-color);
-    color: var(--bg-color);
-    border: none;
-    border-radius: 50%;
-    font-size: 1.8em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 1000;
-    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
+    position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--primary-color);
+    color: var(--bg-color); border: none; border-radius: 50%; font-size: 1.8em; display: flex; align-items: center;
+    justify-content: center; cursor: pointer; z-index: 1000; box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
-.chat-toggle:hover {
-    transform: scale(1.1);
-    background-color: var(--highlight-color); /* Change color on hover */
-}
-.chat-toggle .fa-times { /* Close icon initially hidden */
-    display: none;
-}
-.chat-toggle.active .fa-comments { /* Hide chat icon when active */
-    display: none;
-}
-.chat-toggle.active .fa-times { /* Show close icon when active */
-    display: block;
-}
-
+.chat-toggle:hover { transform: scale(1.1); background-color: var(--highlight-color); }
+.chat-toggle .fa-times { display: none; }
+.chat-toggle.active .fa-comments { display: none; }
+.chat-toggle.active .fa-times { display: block; }
 .chat-window {
-    position: fixed;
-    bottom: 100px; /* Position above the toggle button */
-    right: 30px;
-    width: 320px;
-    max-height: 450px; /* Limit height */
-    background-color: var(--module-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* Prevents content overflow */
-
-    /* Initial hidden state */
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-    transform-origin: bottom right;
-    pointer-events: none; /* Prevent interaction when hidden */
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: fixed; bottom: 100px; right: 30px; width: 320px; max-height: 450px; background-color: var(--module-bg);
+    border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    z-index: 999; display: flex; flex-direction: column; overflow: hidden;
+    opacity: 0; transform: translateY(20px) scale(0.95); transform-origin: bottom right;
+    pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease;
 }
-.chat-window.is-visible {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    pointer-events: auto; /* Allow interaction when visible */
-}
-
+.chat-window.is-visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
 .chat-header {
-    background-color: rgba(0, 255, 255, 0.1); /* Header background */
-    color: var(--primary-color);
-    padding: 10px 15px;
-    font-family: var(--font-display);
-    font-size: 1.1em;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
+    background-color: rgba(0, 255, 255, 0.1); color: var(--primary-color); padding: 10px 15px;
+    font-family: var(--font-display); font-size: 1.1em; border-bottom: 1px solid var(--border-color); display: flex; align-items: center;
 }
-.status-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #00ff00; /* Green dot */
-    border-radius: 50%;
-    margin-left: 8px;
-    box-shadow: 0 0 5px #00ff00;
-    animation: pulse 2s infinite;
-}
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
+.status-dot { width: 8px; height: 8px; background-color: #00ff00; border-radius: 50%; margin-left: 8px; box-shadow: 0 0 5px #00ff00; animation: pulse 2s infinite; }
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+.chat-body { padding: 15px; flex-grow: 1; overflow-y: auto; color: var(--text-secondary); font-size: 0.95em; }
+.ai-message { margin-bottom: 10px; line-height: 1.5; color: var(--text-primary); } /* Use primary text color */
+.chat-footer { padding: 10px 15px; border-top: 1px solid var(--border-color); background-color: rgba(10, 25, 47, 0.8); }
+.quick-link { display: inline-block; background-color: rgba(0, 255, 255, 0.1); color: var(--primary-color); padding: 5px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 8px; margin-bottom: 8px; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease; }
+.quick-link:hover { background-color: var(--primary-color); color: var(--bg-color); }
+.mock-input { margin-top: 10px; padding: 8px 10px; background-color: rgba(0, 0, 0, 0.3); border-radius: 4px; color: var(--tertiary-color); font-size: 0.9em; font-style: italic; }
 
 
-.chat-body {
-    padding: 15px;
-    flex-grow: 1; /* Takes up available space */
-    overflow-y: auto; /* Enable scrolling for messages */
-    color: var(--secondary-color);
-    font-size: 0.95em;
-}
-.ai-message {
-    margin-bottom: 10px;
-    line-height: 1.5;
-}
-
-.chat-footer {
-    padding: 10px 15px;
-    border-top: 1px solid var(--border-color);
-    background-color: rgba(10, 25, 47, 0.8); /* Slightly darker footer */
-}
-.quick-link {
-    display: inline-block;
-    background-color: rgba(0, 255, 255, 0.1);
-    color: var(--primary-color);
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 0.85em;
-    margin-right: 8px;
-    margin-bottom: 8px; /* Space between links if they wrap */
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-.quick-link:hover {
-    background-color: var(--primary-color);
-    color: var(--bg-color);
-}
-.mock-input {
-    margin-top: 10px;
-    padding: 8px 10px;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-    color: var(--tertiary-color);
-    font-size: 0.9em;
-    font-style: italic;
-}
-.blinking-cursor {
-    display: inline-block;
-    animation: blink 1s infinite;
-    margin-left: 2px;
-}
-
-/* ***** NEW Recommendations Section Styling ***** */
-/* ***** UPDATED Recommendations Section Styling (Slider) ***** */
-#recommendations h2 {
-    margin-bottom: 30px;
-}
-
-.recommendations-slider {
-    position: relative;
-    width: 100%;
-    overflow: hidden; /* Crucial: Hides parts of cards outside the view */
-    padding: 20px 0; /* Add some vertical padding */
-}
-
-.recommendations-track {
-    display: flex; /* Arrange cards horizontally */
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth slide transition */
-    /* The width will be calculated dynamically by JS if needed, but flex handles it */
-}
-
-.recommendations-track.no-transition {
-    transition: none;
-}
-
-
-.recommendation-card {
-    /* --- Card Dimensions --- */
-    width: 70%; /* Adjust width of the central card */
-    flex-shrink: 0; /* Prevent cards from shrinking */
-    margin: 0 2%; /* Adjust spacing between cards */
-    box-sizing: border-box;
-
-    /* --- Styling --- */
-    background-color: rgba(30, 52, 81, 0.6);
-    border-left: 4px solid var(--primary-color);
-    padding: 25px 30px;
-    border-radius: 6px;
-    position: relative; /* For pseudo-elements if needed later */
-
-    /* --- Default state (inactive/shadow) --- */
-    opacity: 0.4;
-    transform: scale(0.85); /* Make inactive cards smaller */
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    cursor: pointer; /* Indicate they can potentially be clicked to center */
-}
-
-/* --- Active Card Styling --- */
-.recommendation-card.is-active {
-    opacity: 1;
-    transform: scale(1); /* Full size */
-    background-color: rgba(40, 62, 91, 0.8); /* Slightly more prominent background */
-    box-shadow: 0 5px 25px rgba(0, 255, 255, 0.15);
-    cursor: default;
-}
-
-/* --- Recommender Info Styling (keep as before or adjust) --- */
-.recommender-info h3 {
-    color: var(--secondary-color);
-    font-size: 1.3em;
-    margin-bottom: 3px;
-}
-
-.recommender-title {
-    color: var(--tertiary-color);
-    font-size: 0.9em;
-    margin-bottom: 15px;
-    font-style: italic;
-}
-
-.recommendation-text {
-    color: var(--secondary-color);
-    font-size: 1em;
-    line-height: 1.7;
-}
-
-/* --- Slider Navigation Buttons --- */
-.slider-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 255, 255, 0.2);
-    border: 1px solid var(--border-color);
-    color: var(--secondary-color);
-    font-size: 1.8em;
-    font-weight: bold;
-    padding: 5px 15px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 10;
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-}
-
-.slider-button:hover {
-    background-color: rgba(0, 255, 255, 0.4);
-    color: var(--bg-color);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-}
-
-.slider-button.prev {
-    left: -10px; /* Adjust position */
-}
-
-.slider-button.next {
-    right: -10px; /* Adjust position */
-}
-
-.slider-button:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-    background-color: rgba(136, 146, 176, 0.2); /* Use tertiary color base */
-    border-color: rgba(136, 146, 176, 0.4);
-    color: var(--tertiary-color);
-    box-shadow: none;
-}
-
-
-/* Responsive adjustments for slider */
+/* --- Responsive Design --- */
 @media (max-width: 992px) {
-    .recommendation-card {
-        width: 80%;
-        margin: 0 1.5%;
-    }
+    body { padding-top: 90px; /* Adjust for potentially shorter sticky nav */ }
+    .header-sticky-wrapper .profile-pic { width: 40px; height: 40px; }
+    .header-sticky-wrapper h1 { font-size: 1.3em; }
+    .header-sticky-wrapper .main-nav a { font-size: 0.9em; margin: 0 8px; }
+    .projects-container { grid-template-columns: 1fr; /* Stack projects */ }
+     .recommendation-card { width: 80%; margin: 0 1.5%; }
 }
 
 @media (max-width: 768px) {
-    .recommendation-card {
-        width: 90%;
-        margin: 0 1%;
-        padding: 20px 25px;
-        transform: scale(0.8); /* Slightly smaller scale for side cards */
-    }
-     .recommendation-card.is-active {
-         transform: scale(1);
-     }
-    .slider-button {
-        font-size: 1.5em;
-        width: 40px;
-        height: 40px;
-        padding: 5px 10px;
-    }
+    :root { --spacing-unit: 15px; } /* Reduce base spacing */
+    body { padding-top: 70px; font-size: 95%; /* Slightly smaller base font */}
+    h2 { font-size: 1.8em; }
+    h3 { font-size: 1.2em; }
+    .module { padding: calc(var(--spacing-unit) * 1.5); margin-bottom: calc(var(--spacing-unit) * 2); }
+    .header-sticky-wrapper .profile-pic { display: none; } /* Hide pic on small screens */
+    .header-sticky-wrapper h1 { font-size: 1.2em; margin-bottom: 5px;}
+    .header-sticky-wrapper .subtitle { display: none; } /* Hide subtitle */
+    .header-sticky-wrapper .main-nav { margin-top: 0; }
+    .header-sticky-wrapper .main-nav a { font-size: 0.85em; margin: 0 5px; }
+    .projects-container { grid-template-columns: 1fr; gap: var(--spacing-unit); }
+    .project-content { padding: var(--spacing-unit); }
+    .project-details { padding-left: calc(var(--spacing-unit) * 0.5); }
+    .project-links { gap: calc(var(--spacing-unit) * 0.75); }
+     .recommendation-card { width: 90%; margin: 0 1%; padding: 20px 25px; transform: scale(0.8); }
+     .recommendation-card.is-active { transform: scale(1); }
+    .slider-button { font-size: 1.5em; width: 40px; height: 40px; padding: 5px 10px; }
     .slider-button.prev { left: 0px; }
     .slider-button.next { right: 0px; }
-
-}
-@media (max-width: 480px) {
-     .recommendation-card {
-        width: 94%;
-        margin: 0 1%;
-        padding: 15px 20px;
-         transform: scale(0.75);
-    }
-     .recommendation-card.is-active {
-         transform: scale(1);
-     }
-}
-
-
-/* ***** END UPDATED Recommendations Section Styling ***** */
-/* ***** END Recommendations Section Styling ***** */
-
-
-/* Contact Footer Styles remain the same */
-#connect { text-align: center; }
-.contact-links a { color: var(--secondary-color); font-size: 2em; margin: 0 15px; transition: color 0.3s ease, transform 0.3s ease; display: inline-block; }
-.contact-links a:hover { color: var(--primary-color); transform: scale(1.2); }
-.footer-note { margin-top: 30px; font-size: 0.9em; color: var(--tertiary-color); }
-
-/* Responsive Design (Adjustments) */
-@media (max-width: 768px) {
-    .container { padding: 15px; }
-    .boot-sequence h1 { font-size: 2em; }
-    .boot-sequence .subtitle { font-size: 1.1em; }
-    .main-nav a { margin: 0 8px; font-size: 1em; }
-    .skills-grid, .projects-grid { grid-template-columns: 1fr; }
-    h2 { font-size: 1.5em; }
-    .module { padding: 20px; }
-    .contact-links a { font-size: 1.8em; margin: 0 10px; }
-
-    /* Adjust service list for smaller screens */
-    .services-list li { flex-direction: column; align-items: flex-start; }
-    .service-text { margin-right: 0; margin-bottom: 10px; width: 100%; }
-    .service-contact-buttons { margin-left: 0; /* Align left below text */ margin-top: 5px; }
-
-    .recommendation-card { padding: 15px 20px; }
-    .recommendation-card::before { left: -10px; font-size: 2em; }
+    /* Adjust chat button/window position/size */
+    .chat-toggle { width: 50px; height: 50px; font-size: 1.5em; bottom: 20px; right: 20px; }
+    .chat-window { width: calc(100% - 40px); bottom: 80px; right: 20px; }
+    .module-cta h2 { font-size: 1.8em; }
+    .cta-text { font-size: 1em; }
+    .cta-action { font-size: 1.1em; }
+    .module-cta .contact-links a { font-size: 2em; }
 }
 
 @media (max-width: 480px) {
+     body { padding-top: 60px; }
      .boot-sequence h1 { font-size: 1.8em; }
      .boot-sequence .subtitle { font-size: 1em; }
-     .main-nav { display: flex; flex-wrap: wrap; justify-content: center; }
-     .main-nav a { margin: 5px 10px; }
+     .header-sticky-wrapper { /* Nav might need to wrap or become hamburger */ }
+     .header-sticky-wrapper .main-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px 10px; }
+     .header-sticky-wrapper .main-nav a { margin: 0; }
      .profile-pic { width: 120px; height: 120px; }
+     .module { padding: var(--spacing-unit); }
+     .projects-container { gap: var(--spacing-unit); }
+     .recommendation-card { width: 94%; margin: 0 1%; padding: 15px 20px; transform: scale(0.75); }
+     .recommendation-card.is-active { transform: scale(1); }
+     .chat-window { width: calc(100% - 30px); right: 15px; bottom: 75px;}
+     .chat-toggle { bottom: 15px; right: 15px; }
 }
+
+.cta-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border-color), transparent); /* Faded line */
+    margin: calc(var(--spacing-unit) * 1.25) auto; /* Spacing around line */
+    width: 60%; /* Adjust width */
+    opacity: 0.6;
+}
+
+.cta-text {
+    font-size: 1.1em;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: calc(var(--spacing-unit) * 0.5); /* Tighter spacing */
+    line-height: 1.6;
+}
+
+.cta-action {
+    font-size: 1.25em; /* Slightly larger */
+    font-weight: bold;
+    color: var(--highlight-color); /* Use highlight color for action */
+    margin-bottom: calc(var(--spacing-unit) * 2); /* More space before icons */
+    letter-spacing: 0.5px; /* Add subtle spacing */
+}
+
+.contact-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 1.8); /* Increased gap between icons */
+    margin-bottom: calc(var(--spacing-unit) * 2); /* More space before footer note */
+}
+
+.contact-icon-link { /* Style the link/icon wrapper */
+    display: inline-flex; /* Use flex to center icon easily */
+    justify-content: center;
+    align-items: center;
+    width: 60px; /* Increased size */
+    height: 60px;
+    border-radius: 50%; /* Circular background */
+    background-color: rgba(0, 255, 255, 0.1); /* Subtle background */
+    border: 1px solid var(--border-color);
+    color: var(--primary-color); /* Icon color */
+    font-size: 1.8em; /* Control icon size via font-size */
+    transition: all 0.3s ease;
+    text-decoration: none; /* Remove underline if any */
+}
+
+.contact-icon-link i { /* Ensure icon itself is centered */
+     line-height: 1;
+}
+
+.contact-icon-link:hover {
+    background-color: var(--primary-color);
+    color: var(--bg-color); /* Icon color changes on hover */
+    transform: scale(1.15) translateY(-3px); /* Pop effect */
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+}
+
+.footer-note {
+    margin-top: var(--spacing-unit);
+    font-size: 0.9em;
+    color: var(--tertiary-color); /* Use muted color */
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for theme */
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+}
+.footer-note span#year{
+    /* Ensure year span doesn't override font */
+    font-family: inherit;
+}
+
+/* --- Responsive Adjustments for Footer --- */
+@media (max-width: 768px) {
+    .module-cta h2 { font-size: 1.8em; }
+    .cta-text { font-size: 1em; }
+    .cta-action { font-size: 1.1em; margin-bottom: calc(var(--spacing-unit) * 1.5); }
+    .contact-links { gap: calc(var(--spacing-unit) * 1.5); margin-bottom: calc(var(--spacing-unit) * 1.5);}
+    .contact-icon-link { width: 50px; height: 50px; font-size: 1.6em; }
+}
+
+@media (max-width: 480px) {
+     .module-cta h2 { font-size: 1.6em; }
+     .contact-links { gap: calc(var(--spacing-unit) * 1.2); }
+     .contact-icon-link { width: 45px; height: 45px; font-size: 1.4em; }
+     .footer-note { font-size: 0.8em; }
+}
+
