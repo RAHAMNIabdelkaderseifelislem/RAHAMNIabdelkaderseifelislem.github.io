@@ -33,6 +33,56 @@ body { background-color: var(--bg-color); color: var(--secondary-color); font-fa
 .main-nav a:hover::after { width: 100%; }
 h2 { font-family: var(--font-display); color: var(--primary-color); margin-bottom: 25px; font-size: 1.8em; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
 
+.boot-messages {
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+    color: var(--tertiary-color);
+    font-size: 0.9em;
+    margin-bottom: 20px;
+    min-height: 4.5em; /* Reserve space */
+    text-align: left; /* Align messages left */
+    max-width: 400px; /* Limit width */
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.8;
+}
+.boot-msg {
+    margin: 0;
+    line-height: 1.5;
+    min-height: 1.5em; /* Prevent jumping */
+}
+.boot-msg::before {
+    content: '>'; /* Command prompt look */
+    margin-right: 8px;
+    color: var(--primary-color);
+}
+.boot-msg .typing::after { /* Adjust cursor for boot messages */
+    content: '_';
+    opacity: 1;
+    animation: blink 1s infinite;
+    font-weight: bold;
+    margin-left: 2px;
+}
+
+
+/* --- Micro-interactions (Examples) --- */
+.main-nav a:hover,
+.contact-links a:hover,
+.slider-button:not(:disabled):hover { /* Add slider button */
+    transform: scale(1.1); /* Existing scale/translate might be fine */
+     /* color: var(--primary-color); // Already applied */
+}
+.project-card:hover {
+    transform: translateY(-7px) scale(1.02); /* Slightly more pronounced */
+    box-shadow: 0 12px 25px rgba(0, 255, 255, 0.25); /* Enhanced shadow */
+}
+.service-contact-buttons a:hover {
+    transform: scale(1.15); /* Slightly larger button pop */
+}
+/* Ensure transitions are defined on the base elements */
+.main-nav a, .contact-links a, .slider-button, .project-card, .service-contact-buttons a {
+    transition: all 0.3s ease; /* General transition for hover effects */
+}
+
 
 /* ***** UPDATED Skills Section Styling ***** */
 .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
@@ -169,6 +219,144 @@ h2 { font-family: var(--font-display); color: var(--primary-color); margin-botto
 .timeline-item h3 { color: var(--secondary-color); font-size: 1.2em; margin-bottom: 5px; }
 .timeline-item p { color: var(--tertiary-color); font-size: 0.95em; }
 
+
+
+
+/* --- AI Assistant Chat Styling --- */
+.chat-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.8em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.chat-toggle:hover {
+    transform: scale(1.1);
+    background-color: var(--highlight-color); /* Change color on hover */
+}
+.chat-toggle .fa-times { /* Close icon initially hidden */
+    display: none;
+}
+.chat-toggle.active .fa-comments { /* Hide chat icon when active */
+    display: none;
+}
+.chat-toggle.active .fa-times { /* Show close icon when active */
+    display: block;
+}
+
+.chat-window {
+    position: fixed;
+    bottom: 100px; /* Position above the toggle button */
+    right: 30px;
+    width: 320px;
+    max-height: 450px; /* Limit height */
+    background-color: var(--module-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Prevents content overflow */
+
+    /* Initial hidden state */
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transform-origin: bottom right;
+    pointer-events: none; /* Prevent interaction when hidden */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.chat-window.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto; /* Allow interaction when visible */
+}
+
+.chat-header {
+    background-color: rgba(0, 255, 255, 0.1); /* Header background */
+    color: var(--primary-color);
+    padding: 10px 15px;
+    font-family: var(--font-display);
+    font-size: 1.1em;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+}
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00ff00; /* Green dot */
+    border-radius: 50%;
+    margin-left: 8px;
+    box-shadow: 0 0 5px #00ff00;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+
+.chat-body {
+    padding: 15px;
+    flex-grow: 1; /* Takes up available space */
+    overflow-y: auto; /* Enable scrolling for messages */
+    color: var(--secondary-color);
+    font-size: 0.95em;
+}
+.ai-message {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.chat-footer {
+    padding: 10px 15px;
+    border-top: 1px solid var(--border-color);
+    background-color: rgba(10, 25, 47, 0.8); /* Slightly darker footer */
+}
+.quick-link {
+    display: inline-block;
+    background-color: rgba(0, 255, 255, 0.1);
+    color: var(--primary-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    margin-right: 8px;
+    margin-bottom: 8px; /* Space between links if they wrap */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.quick-link:hover {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+}
+.mock-input {
+    margin-top: 10px;
+    padding: 8px 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    color: var(--tertiary-color);
+    font-size: 0.9em;
+    font-style: italic;
+}
+.blinking-cursor {
+    display: inline-block;
+    animation: blink 1s infinite;
+    margin-left: 2px;
+}
 
 /* ***** NEW Recommendations Section Styling ***** */
 /* ***** UPDATED Recommendations Section Styling (Slider) ***** */

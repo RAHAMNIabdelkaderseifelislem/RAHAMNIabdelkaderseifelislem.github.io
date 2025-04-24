@@ -15,17 +15,22 @@
     <div class="container">
 
         <header class="module boot-sequence">
+            <div class="boot-messages">
+                <p id="boot-msg-1" class="boot-msg"></p>
+                <p id="boot-msg-2" class="boot-msg"></p>
+                <p id="boot-msg-3" class="boot-msg"></p>
+            </div>
             <img src="assets/images/profile.png" alt="AbdElKader Seif El Islem RAHMANI" class="profile-pic">
             <h1 id="typing-name"></h1>
             <p class="subtitle" id="typing-title"></p>
             <nav class="main-nav">
-                <a href="#about">Profile Matrix</a>
-                <a href="#skills">Skill Core</a>
-                <a href="#projects">Project Logs</a>
-                <a href="#services">Service Protocols</a>
-                <a href="#experience">Experience Records</a>
-                <a href="#recommendations">Commendations</a>
-                <a href="#connect">Connect</a>
+                 <a href="#about">Profile Matrix</a>
+                 <a href="#skills">Skill Core</a>
+                 <a href="#projects">Project Logs</a>
+                 <a href="#services">Service Protocols</a>
+                 <a href="#experience">Experience Records</a>
+                 <a href="#recommendations">Commendations</a>
+                 <a href="#connect">Connect</a>
             </nav>
         </header>
 
@@ -306,6 +311,29 @@
 
     </div> <!-- /container -->
 
+    <button id="chat-toggle-button" class="chat-toggle" aria-label="Toggle AI Assistant">
+        <i class="fas fa-comments"></i> <!-- Chat icon -->
+        <i class="fas fa-times"></i> <!-- Close icon (hidden initially) -->
+    </button>
+
+    <div id="chat-window" class="chat-window">
+        <div class="chat-header">
+            AI Assistant Protocol <span class="status-dot"></span>
+        </div>
+        <div class="chat-body">
+            <p class="ai-message">Welcome to the A.S.E.I.R Command Center. Systems online. How can I direct you?</p>
+            <!-- Add more pre-scripted messages if desired -->
+        </div>
+        <div class="chat-footer">
+             <span class="quick-link" data-target="#skills">Analyze Skill Core</span>
+             <span class="quick-link" data-target="#projects">Review Project Logs</span>
+             <span class="quick-link" data-target="#connect">Establish Comms</span>
+             <!-- Input area simulation (non-functional) -->
+             <div class="mock-input">
+                 <span>Initiate query...</span><span class="blinking-cursor">_</span>
+             </div>
+        </div>
+    </div>
     <script src="js/script.js"></script>
 </body>
 </html>

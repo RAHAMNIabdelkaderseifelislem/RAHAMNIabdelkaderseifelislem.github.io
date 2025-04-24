@@ -10,8 +10,77 @@ document.addEventListener('DOMContentLoaded', () => {
     const titleElement = document.getElementById('typing-title');
     const nameText = "AbdElKader Seif El Islem RAHMANI";
     const titleText = "Deep Learning Engineer | Data Scientist | AI Enthusiast";
-    const typingSpeed = 80;
+    const typingSpeed = 60;
     const delayBetween = 500;
+
+    const bootMsg1 = document.getElementById('boot-msg-1');
+    const bootMsg2 = document.getElementById('boot-msg-2');
+    const bootMsg3 = document.getElementById('boot-msg-3');
+
+    const bootText1 = "Initializing AI Command Center v2.5...";
+    const bootText2 = "Loading Profile Matrix... [OK]";
+    const bootText3 = "Establishing Secure Connection...";
+    const bootDelay = 150; // Delay between boot messages
+    const nameDelay = 300; // Delay before typing name
+
+    function typeWriter(element, text, index, speed, callback) {
+        if (!element) { if(callback) callback(); return; } // Check if element exists
+        if (index < text.length) {
+            // Use textContent for efficiency, add cursor via class/pseudo-element if preferred
+             element.textContent = text.substring(0, index + 1);
+             // Or add cursor dynamically:
+             element.innerHTML = text.substring(0, index + 1) + '<span class="typing"></span>';
+            setTimeout(() => typeWriter(element, text, index + 1, speed, callback), speed);
+        } else {
+            element.textContent = text; // Remove cursor span
+            if (callback) {
+                setTimeout(callback, bootDelay); // Use bootDelay between steps
+            }
+        }
+    }
+
+    // Start the boot sequence
+    if (bootMsg1) bootMsg1.innerHTML = '<span class="typing"></span>'; // Initial cursor
+    typeWriter(bootMsg1, bootText1, 0, typingSpeed, () => {
+        if (bootMsg2) bootMsg2.innerHTML = '<span class="typing"></span>';
+        typeWriter(bootMsg2, bootText2, 0, typingSpeed, () => {
+            if (bootMsg3) bootMsg3.innerHTML = '<span class="typing"></span>';
+            typeWriter(bootMsg3, bootText3, 0, typingSpeed, () => {
+                // Boot sequence finished, start name/title
+                if (nameElement) nameElement.innerHTML = '<span class="typing"></span>';
+                if (titleElement) titleElement.innerHTML = ' '; // Prevent layout shift
+                setTimeout(() => { // Delay before name typing starts
+                    typeWriter(nameElement, nameText, 0, typingSpeed, () => {
+                        if (titleElement) titleElement.innerHTML = '<span class="typing"></span>';
+                        typeWriter(titleElement, titleText, 0, typingSpeed, null);
+                    });
+                }, nameDelay);
+            });
+        });
+    });
+
+
+    // --- Smooth Scroll for Nav & Quick Links ---
+    function smoothScrollTo(targetId) {
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // Chat Quick Links
+    const quickLinks = document.querySelectorAll('.chat-footer .quick-link');
+    quickLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            if (targetId && targetId.startsWith('#')) {
+                smoothScrollTo(targetId.substring(1));
+                // Optionally close chat window after click
+                // chatWindow.classList.remove('is-visible');
+                // chatToggleButton.classList.remove('active');
+            }
+        });
+    });
 
     function typeWriter(element, text, index, callback) {
         if (index < text.length) {
@@ -117,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 1; // Start at the first REAL card
         let isTransitioning = false;
         let autoPlayInterval = null; // Variable to hold the interval ID
-        const autoPlayDelay = 10000; // 10 seconds
+        const autoPlayDelay = 5000; // 10 seconds
 
         function setupSlider() {
             // Cloning (same as before)
@@ -286,5 +355,25 @@ document.addEventListener('DOMContentLoaded', () => {
              if (nextButton) nextButton.style.display = 'none';
         }
     }
+
+    // --- ***** NEW: AI Assistant Chat Toggle Logic ***** ---
+    const chatToggleButton = document.getElementById('chat-toggle-button');
+    const chatWindow = document.getElementById('chat-window');
+
+    if (chatToggleButton && chatWindow) {
+        chatToggleButton.addEventListener('click', () => {
+            chatWindow.classList.toggle('is-visible');
+            chatToggleButton.classList.toggle('active'); // Toggle button appearance
+        });
+
+        // Optional: Close chat if user clicks outside of it
+        document.addEventListener('click', (event) => {
+            if (!chatWindow.contains(event.target) && !chatToggleButton.contains(event.target) && chatWindow.classList.contains('is-visible')) {
+                 chatWindow.classList.remove('is-visible');
+                 chatToggleButton.classList.remove('active');
+            }
+        });
+    }
+     // --- ***** END: AI Assistant Chat Toggle Logic ***** ---
 
 }); // End DOMContentLoaded
